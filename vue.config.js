@@ -1,7 +1,7 @@
 /**
  * @description webpack默认配置
  * @author 王乐翔
- * @createDate 2022/10/223
+ * @createDate 2022/10/23
  * @lastEditDate
  * @lastEditAuthor
  * @returns

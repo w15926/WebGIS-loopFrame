@@ -1,12 +1,17 @@
 <template>
   <div class="Nav">
-    大标题
+    <div @click="refreshPage">{{$config.commonConfig.systemName}}</div>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'Nav',
+  methods: {
+    refreshPage () {
+      location.reload()
+    }
+  }
 }
 </script>
 
@@ -16,7 +21,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 120px;
   line-height: 100px;
   color: #fff;
   text-align: center;

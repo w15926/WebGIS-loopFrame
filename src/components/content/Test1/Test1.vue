@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name:'Test1',
   props: {
     receiveId: {
       type: String,

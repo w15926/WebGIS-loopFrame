@@ -1,13 +1,12 @@
 <template>
-  <div :id="receiveId" class="Test2">
-    Test2
-    <div @click="test_switchMap">🐷点我切换地图视野🐷</div>
+  <div :id="receiveId" class="Test3">
+    Test3
   </div>
 </template>
 
 <script>
 export default {
-  name:'Test2',
+  name:'Test3',
   props: {
     receiveId: {
       type: String,
@@ -51,9 +50,6 @@ export default {
   methods: {
     init () {
 
-    },
-    test_switchMap(){
-       this.$bus.$emit('setMapView',{ zoom: 3 })
     }
   },
   beforeDestroy () {
@@ -62,15 +58,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.Test2 {
-  width: 300px;
-  height: 100px;
+<style>
+.Test3 {
+  width: 490px;
+  height: 250px;
   font-size: 30px;
-  background-color: skyblue;
-  div{
-    color: tomato;
-    cursor: pointer;
-  }
+  background-color: wheat;
 }
 </style>
