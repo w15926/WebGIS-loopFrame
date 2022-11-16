@@ -1,24 +1,23 @@
 <template>
   <div class="Page3">
-    <Map />
 
     <!-- 组件循环（开发中添加其它属性时需沟通）start -->
-    <template v-if="pageConfig && pageConfig.leftComponents">
+    <template v-if="page3Config && page3Config.leftComponents">
       <div class="leftContainer">
-        <component v-for="(item, index) in pageConfig.leftComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-          style="marginBottom:20px;}" />
+        <component v-for="(item, index) in page3Config.leftComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
+          :width="item.width" :height="item.heitht" style="marginBottom:20px;}" />
       </div>
     </template>
 
-    <template v-if="pageConfig && pageConfig.centerComponents">
-      <component v-for="(item, index) in pageConfig.centerComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-        :style="{ left: item.x + 'px', top: item.y + 'px', position: 'absolute' }" />
+    <template v-if="page3Config && page3Config.centerComponents">
+      <component v-for="(item, index) in page3Config.centerComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
+        :width="item.width" :height="item.heitht" :style="{ left: item.x + 'px', top: item.y + 'px', position: 'absolute' }" />
     </template>
 
-    <template v-if="pageConfig && pageConfig.rightComponents">
+    <template v-if="page3Config && page3Config.rightComponents">
       <div class="rightContainer">
-        <component v-for="(item, index) in pageConfig.rightComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-          style="marginBotton:20px;" />
+        <component v-for="(item, index) in page3Config.rightComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
+          :width="item.width" :height="item.heitht" style="marginBotton:20px;" />
       </div>
     </template>
     <!-- 组件循环 end -->
@@ -27,29 +26,25 @@
 </template>
 
 <script>
-import Map from './Page3Map'
-
 export default {
-  components: {
-    Map,
-  },
   data () {
     return {
-      pageConfig: null, // 页面基础配置
+      /* 页面基础配置 start */
+      temp_page3Config: null, // 临时
+      page3Config: null,
+      /* 页面基础配置 end */
     }
   },
   created () {
-    this.$bus.$on('renderPage3', data => this.renderPage3(data)) // 渲染页面
+    // 渲染页面
+    this.$bus.$on('renderPage3', data => this.renderPage3(data))
   },
   mounted () {
   },
   methods: {
     // 渲染页面
     async renderPage3 (data) {
-      if (!data) {
-        return
-      }
-      let temp = data
+      let temp = JSON.parse(JSON.stringify(data))
 
       // 容器order排序
       if (temp.leftComponents) {
@@ -59,12 +54,17 @@ export default {
         temp.rightContainer.sort(function (a, b) { return a.order - b.order })
       }
 
-      this.pageConfig = temp
-      console.warn(this.pageConfig)
-
-      if (this.pageConfig.showMap) {
-        this.$bus.$emit('initPage3Map') // 开发中带参去渲染地图
+      // 设置监听Page3地图加载成功事件的名称
+      for (const item of temp.centerComponents) {
+        if (item.fileName === 'Map') {
+          // 在任意组件中监听此session的value判断当前页地图是否加载完成
+          sessionStorage.setItem('page3MapName', `map_Map${item.id}Success`)
+          break
+        }
       }
+
+      this.page3Config = temp
+      console.warn('page3Config', this.page3Config)
     }
   },
   updated () {

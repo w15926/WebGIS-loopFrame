@@ -1,6 +1,18 @@
 <template>
   <div id="app">
-    <router-view />
+
+    <template v-if="showIFramePage">
+      <IFramePage />
+    </template>
+
+    <template v-else-if="showLogin">
+      <Login />
+    </template>
+
+    <template v-else>
+      <router-view />
+    </template>
+
   </div>
 </template>
 
@@ -8,11 +20,17 @@
 export default {
   data () {
     return {
+      showIFramePage: true,
+      showLogin: true,
       path: window.g.BASE_SOCKETPATH,
       socket: null,
     }
   },
   created () {
+    this.showIFramePage = this.$config.commonConfig.IFramePage.showPage
+    this.showLogin = this.$config.commonConfig.systemLogin
+    this.$bus.$on('closeIFramePage', () => this.showIFramePage = false)
+    this.$bus.$on('loginSucceeded', () => this.showLogin = false)
     // this.initWebSocket()
   },
   methods: {
@@ -109,19 +127,22 @@ export default {
 .page0Left {
   position: absolute;
   top: 0;
-  left: -1920px;
+  // left: -1920px;
+  left: -100%;
   transition: all 0.5s;
 }
 .page0Left2X {
   position: absolute;
   top: 0;
-  left: -3840px;
+  // left: -3840px;
+  left: -200%;
   transition: all 0.5s;
 }
 .page1 {
   position: absolute;
   top: 0;
-  left: 1920px;
+  // left: 1920px;
+  left: 100%;
   transition: all 0.5s;
 }
 .page1Left {
@@ -133,19 +154,22 @@ export default {
 .page1Left2X {
   position: absolute;
   top: 0;
-  left: -1920px;
+  // left: -1920px;
+  left: -100%;
   transition: all 0.5s;
 }
 .page2 {
   position: absolute;
   top: 0;
-  left: 3840px;
+  // left: 3840px;
+  left: 200%;
   transition: all 0.5s;
 }
 .page2Left {
   position: absolute;
   top: 0;
-  left: 1920px;
+  // left: 1920px;
+  left: 100%;
   transition: all 0.5s;
 }
 .page2Left2X {

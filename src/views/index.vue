@@ -1,5 +1,6 @@
 <template>
-  <div class="index">
+  <div class="index" :style="{'width': $config.commonConfig.systemWidth, height: $config.commonConfig.systemHeight}">
+
     <Nav />
     <TopMenu class="topMenu" />
 
@@ -50,30 +51,177 @@ export default {
 
       switchPage: [],
       showPageBtns: true,
+
+      isRenderPage1: false, // 懒加载
+      isRenderPage2: false,
+      isRenderPage3: false,
       /* 分页 end */
 
       /* 每页数据 */
       res_initPage: {
-        page1: {
-          // 左容器
-          leftComponents: [
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 3,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-            {
+        ds: [
+          // 第一页
+          {
+            // 左容器
+            leftComponents: [
+              {
+                id: 666,
+                chName: 'Test3组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test3',
+                order: 3,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 100,
+                y: 100
+              },
+              {
+                id: 666,
+                chName: 'Test3组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test3',
+                order: 1,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 100,
+                y: 100
+              },
+              {
+                id: 666,
+                chName: 'Test3组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test3',
+                order: 2,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 100,
+                y: 100
+              },
+              {
+                id: 666,
+                chName: 'Test3组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test3',
+                order: 4,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 100,
+                y: 100
+              },
+            ],
+            // 页面定位
+            centerComponents: [
+              {
+                id: 666,
+                chName: 'Test1组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test1', // 原pagecode
+                order: 1,
+                paramObject: { width: 100, height: 100 },
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
+                x: 500,
+                y: 100
+              },
+              {
+                id: 666,
+                chName: 'Test2组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test2',
+                order: 1,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 600,
+                y: 300
+              },
+              {
+                id: 666,
+                chName: '页面标题组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'PageTitle',
+                order: 1,
+                paramObject: { line1: 'b页面-第一页' },
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 40,
+                y: 20
+              },
+              {
+                id: 6001,
+                chName: '地图',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Map',
+                order: 1,
+                paramObject: { line1: 'b页面-第一页' },
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 0,
+                y: 0
+              },
+            ],
+            // 右容器
+            rightComponents: [
+              {
+                id: 666,
+                chName: 'Test3组件',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Test3',
+                order: 1,
+                paramObject: {},
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 100,
+                y: 100
+              },
+            ],
+            showMap: true,
+          },
+          // 第二页
+          {
+            leftComponents: [],
+            centerComponents: [],
+            rightComponents: [{
               id: 666,
               chName: 'Test3组件',
               province: '江苏省',
@@ -88,126 +236,32 @@ export default {
               time: '2022/11/06 15:35:09',
               x: 100,
               y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 2,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 4,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-          ],
-          // 页面定位
-          centerComponents: [
-            {
-              id: 666,
-              chName: 'Test1组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test1', // 原pagecode
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
-              x: 500,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test2组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test2',
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
-              x: 600,
-              y: 300
-            },
-          ],
-          // 右容器
-          rightComponents: [
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-          ],
-          showMap: true,
-          moduleTitle: 'APage-1',
-        },
-        page2: {
-          leftComponents: [],
-          centerComponents: [],
-          rightComponents: [{
-            id: 666,
-            chName: 'Test3组件',
-            province: '江苏省',
-            city: '南京市',
-            countyOrDistrict: '栖霞区',
-            fileCodes: '',
-            fileName: 'Test3',
-            order: 1,
-            paramObject: {},
-            categoryCode: 'xxx类的code编码',
-            categoryName: 'xxx类',
-            time: '2022/11/06 15:35:09',
-            x: 100,
-            y: 100
-          },],
-          showMap: false,
-          moduleTitle: 'APage-2',
-        },
-        page3: {
-          leftComponents: [],
-          centerComponents: [],
-          rightComponents: [],
-          showMap: true,
-          moduleTitle: 'APage-3',
-        },
+            },],
+          },
+          // 第三页
+          {
+            leftComponents: [],
+            centerComponents: [
+              {
+                id: 6002,
+                chName: '地图',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'Map',
+                order: 1,
+                paramObject: { line1: 'b页面-第一页' },
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                x: 0,
+                y: 0
+              },
+            ],
+            rightComponents: [],
+          }
+        ],
         defaultPage: 1, // 默认哪一页
         pageCount: 3, // 总页数
       },
@@ -283,112 +337,115 @@ export default {
 
       // 这里仅做框架效果的模拟
       if (receiveData && receiveData.loadPage) {
-        if (receiveData.loadPage === 'APage') {
-          this.res_initPage.page1.leftComponents = [
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 3,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 2,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test3组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test3',
-              order: 4,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09',
-              x: 100,
-              y: 100
-            },
-          ]
-          this.res_initPage.page1.centerComponents = [
-            {
-              id: 666,
-              chName: 'Test1组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test1', // 原pagecode
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
-              x: 500,
-              y: 100
-            },
-            {
-              id: 666,
-              chName: 'Test2组件',
-              province: '江苏省',
-              city: '南京市',
-              countyOrDistrict: '栖霞区',
-              fileCodes: '',
-              fileName: 'Test2',
-              order: 1,
-              paramObject: {},
-              categoryCode: 'xxx类的code编码',
-              categoryName: 'xxx类',
-              time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
-              x: 600,
-              y: 300
-            },
-          ]
-        }
         if (receiveData.loadPage === 'BPage') {
-          this.res_initPage.page1.leftComponents = []
-          this.res_initPage.page1.centerComponents = []
-          this.res_initPage.pageCount = 1
+          this.res_initPage = {
+            ds: [
+              // 第一页
+              {
+                // 左容器
+                leftComponents: [
+                  {
+                    id: 666,
+                    chName: 'Test3组件',
+                    province: '江苏省',
+                    city: '南京市',
+                    countyOrDistrict: '栖霞区',
+                    fileCodes: '',
+                    fileName: 'Test3',
+                    order: 3,
+                    paramObject: {},
+                    categoryCode: 'xxx类的code编码',
+                    categoryName: 'xxx类',
+                    time: '2022/11/06 15:35:09',
+                    x: 100,
+                    y: 100
+                  }
+                ],
+                // 页面定位
+                centerComponents: [
+                  {
+                    id: 666,
+                    chName: '地图',
+                    province: '江苏省',
+                    city: '南京市',
+                    countyOrDistrict: '栖霞区',
+                    fileCodes: '',
+                    fileName: 'Map',
+                    order: 1,
+                    paramObject: { line1: 'b页面-第一页' },
+                    categoryCode: 'xxx类的code编码',
+                    categoryName: 'xxx类',
+                    time: '2022/11/06 15:35:09',
+                    x: 0,
+                    y: 0
+                  },
+                ],
+                // 右容器
+                rightComponents: [],
+                moduleTitle: 'BPage-1',
+              },
+              // 第二页
+              {
+                leftComponents: [],
+                centerComponents: [],
+                rightComponents: [{
+                  id: 666,
+                  chName: 'Test3组件',
+                  province: '江苏省',
+                  city: '南京市',
+                  countyOrDistrict: '栖霞区',
+                  fileCodes: '',
+                  fileName: 'Test3',
+                  order: 1,
+                  paramObject: {},
+                  categoryCode: 'xxx类的code编码',
+                  categoryName: 'xxx类',
+                  time: '2022/11/06 15:35:09',
+                  x: 100,
+                  y: 100
+                },],
+                moduleTitle: 'BPage-2',
+              },
+            ],
+            defaultPage: 1, // 默认哪一页
+            pageCount: 2, // 总页数
+          }
+        }
+        if (receiveData.loadPage === 'CPage') {
+          this.res_initPage = {
+            ds: [
+              // 第一页
+              {
+                // 左容器
+                leftComponents: [],
+                // 页面定位
+                centerComponents: [],
+                // 右容器
+                rightComponents: [
+                  {
+                    id: 666,
+                    chName: 'Test3组件',
+                    province: '江苏省',
+                    city: '南京市',
+                    countyOrDistrict: '栖霞区',
+                    fileCodes: '',
+                    fileName: 'Test3',
+                    order: 3,
+                    paramObject: {},
+                    categoryCode: 'xxx类的code编码',
+                    categoryName: 'xxx类',
+                    time: '2022/11/06 15:35:09',
+                    x: 100,
+                    y: 100
+                  }
+                ],
+                showMap: true,
+                moduleTitle: 'CPage-1',
+              },
+            ],
+            defaultPage: 1, // 默认哪一页
+            pageCount: 1, // 总页数
+          }
         }
       }
 
@@ -430,9 +487,13 @@ export default {
     changeTopMenu (receiveData) {
       // 拿到接收到的数据去调用接口再执行initPage
 
+      this.isRenderPage1 = false
+      this.isRenderPage2 = false
+      this.isRenderPage3 = false
+
       // 这里仅做框架效果的模拟
-      if (receiveData.activeMenu.viewName === 'APage') this.initPage({ loadPage: 'APage' })
       if (receiveData.activeMenu.viewName === 'BPage') this.initPage({ loadPage: 'BPage' })
+      if (receiveData.activeMenu.viewName === 'CPage') this.initPage({ loadPage: 'CPage' })
     },
     // 点击分页按钮
     clickBtn (pageNum) {
@@ -449,19 +510,28 @@ export default {
           this.p1Animation = true
           this.p2Animation = false
           this.p3Animation = false
-          this.$bus.$emit('renderPage1', this.res_initPage.page1)
+          if (!this.isRenderPage1) {
+            this.isRenderPage1 = true
+            this.$bus.$emit('renderPage1', this.res_initPage.ds[0])
+          }
         }
         if (pageNum === 1) {
           this.p1Animation = false
           this.p2Animation = true
           this.p3Animation = false
-          this.$bus.$emit('renderPage2', this.res_initPage.page2)
+          if (!this.isRenderPage2) {
+            this.$bus.$emit('renderPage2', this.res_initPage.ds[1])
+            this.isRenderPage2 = true
+          }
         }
         if (pageNum === 2) {
           this.p1Animation = false
           this.p2Animation = false
           this.p3Animation = true
-          this.$bus.$emit('renderPage3', this.res_initPage.page3)
+          if (!this.isRenderPage3) {
+            this.$bus.$emit('renderPage3', this.res_initPage.ds[2])
+            this.isRenderPage3 = true
+          }
         }
       }
     },
@@ -494,8 +564,8 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  width: 1920px;
-  height: 1080px;
+  // width: 1920px;
+  // height: 1080px;
   overflow: hidden;
   .topMenu {
     position: absolute;
