@@ -1,0 +1,43 @@
+/* 已用normalize初始化项目，这里写额外需要初始化的全局样式 */
+* {
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* iOS Safari */
+  -webkit-touch-callout: none;
+  /* Chrome/Safari/Opera */
+  -webkit-user-select: none;
+  /* Konqueror */
+  -khtml-user-select: none;
+  /* Firefox */
+  -moz-user-select: none;
+  /* Internet Explorer/Edge */
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 14px;
+  color: #333;
+  font-family: "Microsoft Yahei";
+}
+
+/* 如需引用字体则在此引用 */
+/* @font-face {
+  font-family: 'YouSheBiaoTiHei';
+  src: url("../font/YouSheBiaoTiHei-2.ttf");
+}
+ */
+
+input {
+  outline: none;
+  border: none;
+  color: #fff;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none
+}
