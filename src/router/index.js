@@ -17,6 +17,13 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  /* 
+  history模式nginx需要配置一行代码：
+  location / {
+  try_files $uri $uri/ /index.html;
+  }
+ */
+  mode: 'history', 
   routes
 })
 

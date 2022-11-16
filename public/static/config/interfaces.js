@@ -7,11 +7,6 @@
  * @returns
  */
 
-
-/* 
---------------------------- 配置档  左中右容器  设置
- */
-
 let BASE_URL = '' // xxx类
 let BASE_URL_g1 = '' // xxx类
 let BASE_URL_g2 = '' // xxx类

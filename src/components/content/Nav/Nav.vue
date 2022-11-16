@@ -1,5 +1,5 @@
 <template>
-  <div class="Nav">
+  <div class="Nav" :id="receiveId">
     <div @click="refreshPage">{{$config.commonConfig.systemName}}</div>
   </div>
 </template>
@@ -7,6 +7,12 @@
 <script>
 export default {
   name: 'Nav',
+  props: {
+    receiveId: {
+      type: String,
+      default: "",
+    }
+  },
   methods: {
     refreshPage () {
       location.reload()

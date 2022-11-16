@@ -1,25 +1,37 @@
 <template>
-  <div :id="receiveId" class="Test2">
+  <div :id="receiveId" class="Test2" :style="[{width:width+'px'},{height:height+'px'}]">
     Test2
-    <div @click="test_switchMap">🐷点我切换地图视野🐷</div>
+    <div @click="test_addIconMarker">点我在“首页第一页地图”上添加图标🐷</div>
   </div>
 </template>
 
 <script>
 export default {
-  name:'Test2',
+  name: 'Test2',
+  components: {
+
+  },
   props: {
     receiveId: {
       type: String,
       default: "",
     },
+    width: {
+      type: String | Number,
+      default: "600"
+    },
+    height: {
+      type: String | Number,
+      default: "100"
+    },
     fileCodes: {
       type: String,
       default: ''
+    },
+    paramObject: {
+      type: Object,
+      default: () => { }
     }
-  },
-  components: {
-
   },
   data () {
     return {
@@ -52,8 +64,29 @@ export default {
     init () {
 
     },
-    test_switchMap(){
-       this.$bus.$emit('setMapView',{ zoom: 3 })
+    test_addIconMarker () {
+      let Arrone = []
+      let html = '<div style="font-size:38px;">🐷🐷🐷🐷</div>'
+      let obj = {
+        lng: 119.939420725213,
+        lat: 35.93362092765159,
+        htmlString: html,
+        otherData: {
+          markId: ''
+        }
+      }
+      Arrone.push(obj)
+      let marker_points = {
+        clickOpen: true,
+        spotObject: [
+          {
+            offsetX: 0,
+            offsetY: 0,
+            spotArrone: Arrone,
+          },
+        ],
+      }
+      this.$bus.$emit('addIconMarker', { data: marker_points })
     }
   },
   beforeDestroy () {
@@ -64,11 +97,9 @@ export default {
 
 <style lang="scss" scoped>
 .Test2 {
-  width: 300px;
-  height: 100px;
   font-size: 30px;
-  background-color: skyblue;
-  div{
+  border: 2px dashed skyblue;
+  div {
     color: tomato;
     cursor: pointer;
   }

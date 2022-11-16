@@ -3,8 +3,8 @@
  * @param { Object } 请求参数
  * @author 王乐翔
  * @createDate 2022/01/6
- * @lastEditDate
- * @lastEditAuthor
+ * @lastEditDate 2022/11/13
+ * @lastEditAuthor 王乐翔
  * @returns 接口数据
  */
 
@@ -16,6 +16,19 @@ import {
   getTokenVal,
   setTokenVal
 } from '@/utils/auth'
+
+// 请求文件
+export const reqFile = async url => {
+  if (!url) {
+    return new Promise.reject(new Error('笑死，你URL没传来啊😂'))
+  }
+  const req = await axios.get(`${url}?t=${Math.random()}`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+  return req.data
+}
 
 export const myRequest = opt => {
   // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -30,7 +43,6 @@ export const myRequest = opt => {
   return new Promise((resolve, reject) => {
     if (isExpire) {
       // 请求token
-      console.warn(`${window.g1.BASE_API}/api/login`)
       axios.post(`${window.g1.BASE_API}/api/login`, {
         mobile: 'shg60',
         password: '123456'
@@ -97,13 +109,6 @@ export const myRequest = opt => {
       }
       else if (opt.rootPath && !opt.resetPath) {
         return axios.get(`${window.rootPath.BASE_API}/${opt.url}?t=${new Date().getTime()}`, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        })
-      }
-      else if (opt.rootPath && opt.resetPath) {
-        return axios.get(`${opt.url}?t=${new Date().getTime()}`, {
           headers: {
             'Content-Type': 'application/json;charset=UTF-8'
           }

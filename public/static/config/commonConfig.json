@@ -1,0 +1,19 @@
+{
+  "systemName": "WebGIS单页面分页循环组件框架",
+  "systemBg": {
+    "color": "",
+    "url": "/static/bg@2x.png"
+  },
+  "systemCode": "",
+  "systemWidth": "1920px",
+  "systemHeight": "1080px",
+  "systemLogin": true,
+  "IFramePage": {
+    "showPage": true,
+    "IFrameUrl": "https://otqk44.csb.app/",
+    "imgUrl": "/static/bg@2x.png"
+  },
+  "province": "",
+  "city": "",
+  "county": ""
+}

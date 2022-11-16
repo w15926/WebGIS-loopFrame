@@ -1,22 +1,31 @@
 <template>
-  <div :id="receiveId" class="Test1">Test1</div>
+  <div :id="receiveId" class="Test1" :style="[{width:width+'px'},{height:height+'px'}]">Test1</div>
 </template>
 
 <script>
 export default {
-  name:'Test1',
+  name: 'Test1',
   props: {
     receiveId: {
       type: String,
-      default: "",
+      default: ""
+    },
+    width: {
+      type: String | Number,
+      default: "100"
+    },
+    height: {
+      type: String | Number,
+      default: "100"
     },
     fileCodes: {
       type: String,
       default: ''
+    },
+    paramObject: {
+      type: Object,
+      default: () => { }
     }
-  },
-  components: {
-
   },
   data () {
     return {
@@ -56,10 +65,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .Test1 {
-  width: 100px;
-  height: 100px;
   font-size: 30px;
   background-color: skyblue;
 }
