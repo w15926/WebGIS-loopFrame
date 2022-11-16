@@ -1,5 +1,5 @@
 <template>
-  <div class="Page">
+  <div class="Page1">
     <Map />
 
     <!-- 组件循环（开发中添加其它属性时需沟通）start -->
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Map from './Map'
+import Map from './Page1Map'
 
 export default {
   components: {
@@ -41,13 +41,13 @@ export default {
   created () {
     // console.warn(this.$config) // 任意位置打印所有配置档
     // console.warn(this.$methods) // 任意位置调用所有公共方法
-    this.$bus.$on('renderPage', data => this.renderPage(data)) // 渲染页面
+    this.$bus.$on('renderPage1', data => this.renderPage1(data)) // 渲染页面
   },
   mounted () {
   },
   methods: {
     // 渲染页面
-    async renderPage (data) {
+    async renderPage1 (data) {
       if (!data) {
         return
       }
@@ -62,10 +62,9 @@ export default {
       }
 
       this.pageConfig = temp
-      console.warn(this.pageConfig)
 
       if (this.pageConfig.showMap) {
-        this.$bus.$emit('initMap') // 开发中带参去渲染地图
+        this.$bus.$emit('initPage1Map') // 开发中带参去渲染地图
       }
     }
   },
@@ -87,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Page {
+.Page1 {
   position: relative;
   .leftContainer,
   .rightContainer {
@@ -107,7 +106,6 @@ export default {
         border-radius: 3px;
       }
     }
-    // background-color: pink;
   }
   .leftContainer {
     left: 40px;

@@ -99,4 +99,123 @@ export default {
 
 <style lang="scss">
 @import './assets/css/base.css';
+
+.page0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.5s;
+}
+.page0Left {
+  position: absolute;
+  top: 0;
+  left: -1920px;
+  transition: all 0.5s;
+}
+.page0Left2X {
+  position: absolute;
+  top: 0;
+  left: -3840px;
+  transition: all 0.5s;
+}
+.page1 {
+  position: absolute;
+  top: 0;
+  left: 1920px;
+  transition: all 0.5s;
+}
+.page1Left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.5s;
+}
+.page1Left2X {
+  position: absolute;
+  top: 0;
+  left: -1920px;
+  transition: all 0.5s;
+}
+.page2 {
+  position: absolute;
+  top: 0;
+  left: 3840px;
+  transition: all 0.5s;
+}
+.page2Left {
+  position: absolute;
+  top: 0;
+  left: 1920px;
+  transition: all 0.5s;
+}
+.page2Left2X {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.5s;
+}
+.pageSwitch-leftArrow,
+.pageSwitch-rightArrow {
+  position: absolute;
+  top: 550px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  opacity: 0.8;
+  z-index: 9998;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.pageLeftShadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 1080px;
+  background: linear-gradient(to right, rgba(101, 101, 101, 0.5), transparent);
+  z-index: 9997;
+}
+.pageRightShadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 1080px;
+  background: linear-gradient(to left, rgba(101, 101, 101, 0.5), transparent);
+  z-index: 9997;
+}
+.pageSwitch-leftArrow {
+  left: 0;
+}
+.pageSwitch-rightArrow {
+  right: 0;
+}
+.pageSwitch {
+  position: absolute;
+  top: 114px;
+  right: 190px;
+  display: flex;
+  width: 150px;
+  height: 50px;
+  z-index: 9999;
+  .pageSwitch-item {
+    margin-right: 10px;
+    width: 40px;
+    height: 10px;
+    line-height: 50px;
+    text-align: center;
+    color: #0be7d1;
+    background: #126e61;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .pageSwitch-item-active {
+    color: #fff;
+    background-color: #1bc7ad;
+  }
+}
 </style>

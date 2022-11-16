@@ -1,6 +1,6 @@
 <template>
-  <div class="Map">
-    <div id="Map" />
+  <div class="Page1Map">
+    <div id="Page1Map" />
   </div>
 </template>
 
@@ -17,27 +17,27 @@ export default {
   },
   data () {
     return {
-      map: null
+      page1Map: null
     }
   },
   created () {
     // 初始化地图
-    this.$bus.$on('initMap', data => this.initMap(data))
+    this.$bus.$on('initPage1Map', data => this.initPage1Map(data))
     // 设置地图视野
-    this.$bus.$on('setMapView', data => this.setMapView(data))
+    this.$bus.$on('setPage1MapView', data => this.setPage1MapView(data))
   },
   mounted () {
   },
   methods: {
     // 初始化地图
-    initMap (receiveData) {
-      // 从顶部菜单或分页每次进来重置地图和加载其它代码
-      if (this.map) {
-        this.map.setTarget(null)
-        this.map = null
+    initPage1Map (receiveData) {
+      // 核心代码
+      if (this.page1Map) {
+        this.page1Map.setTarget(null)
+        this.page1Map = null
       }
       // 这里做模拟，实际跟项目走
-      this.map = new Map({
+      this.page1Map = new Map({
         layers: [
           new TileLayer({
             source: new XYZ({
@@ -45,7 +45,7 @@ export default {
             })
           }),
         ],
-        target: 'Map',
+        target: 'Page1Map',
         view: new View({
           center: [13193864, 3768250],
           // zoom: (Math.random() * 10).toFixed(0),
@@ -54,8 +54,9 @@ export default {
       })
     },
     // 测试使用
-    setMapView (receiveData) {
-      this.map.setView(new View({
+    setPage1MapView (receiveData) {
+      console.warn(this.page1Map)
+      this.page1Map.setView(new View({
         center: [13193864, 3768250],
         zoom: receiveData.zoom,
       }))
@@ -65,7 +66,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Map {
+.Page1Map {
   position: absolute;
   top: -120px;
   right: 0;
@@ -75,7 +76,7 @@ export default {
   height: 1080px;
   transition: all 0.5s;
   overflow: hidden;
-  #Map {
+  #Page1Map {
     width: inherit;
     height: inherit;
   }
