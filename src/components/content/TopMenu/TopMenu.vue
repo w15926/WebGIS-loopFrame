@@ -54,6 +54,7 @@ export default {
   position: absolute;
   top: 130px;
   left: 50%;
+  top: 140px;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
