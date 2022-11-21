@@ -117,6 +117,7 @@ export default {
 
 <style lang="scss">
 @import './assets/css/base.css';
+@import './assets/css/scss.scss';
 
 .page0 {
   position: absolute;
