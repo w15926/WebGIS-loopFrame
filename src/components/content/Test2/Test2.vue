@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="Test2" :style="[{width:width+'px'},{height:height+'px'}]">
+  <div :id="receiveId" class="Test2" ref="Test2" :style="[{width:width+'px'},{height:height+'px'}]">
     Test2
     <div @click="test_addIconMarker">点我在“首页第一页地图”上添加图标🐷</div>
   </div>
@@ -86,7 +86,12 @@ export default {
           },
         ],
       }
-      this.$bus.$emit('addIconMarker', { data: marker_points })
+      this.$bus.$emit('mapIn', {
+        from: this.$options.name,
+        to: 'OLMap',
+        methods: 'addIconMarker',
+        data: this.$loadsh.cloneDeep(marker_points) // 深拷贝
+      })
     }
   },
   beforeDestroy () {

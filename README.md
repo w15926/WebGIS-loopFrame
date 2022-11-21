@@ -16,6 +16,7 @@
 | :--------: | :------: | :------: | :----: |
 | 2022/11/10 |   2.2    |   初稿   | 王乐翔 |
 | 2022/11/16 |   2.3    | 架构更新 | 王乐翔 |
+| 2022/11/21 |   2.4    | 架构更新 | 王乐翔 |
 
 
 
@@ -217,12 +218,84 @@ this.$bus.$emit('chart_renderLeftChart')
 
 
 
-本框架中通过以下三个渲染三个页面
+## 通信规范
+
+> xxxIn为触发某个组件内的方法，xxxOut为当前组件向外触发方法。
+>
+> from不能为空（方便出问题的时候及时排查）； in的时候to必须填写，out的时候to可以不填。
+>
+> 每个组件的out需在项目**“根目录/busCatalogue.md“**下进行声明。
+
+- 地图
 
 ```js
-this.$bus.$emit('renderPage1', this.res_initPage.page1)
-this.$bus.$emit('renderPage2', this.res_initPage.page2)
-this.$bus.$emit('renderPage3', this.res_initPage.page3)
+this.$bus.$emit('mapIn',{
+    from: '', // 从哪来
+    to: null, // 到哪去（为null是指所有组件都可以接受）
+    methods: null, // 去的页面要触发的方法
+  	// 因JSON.parse(JSON.stringify())存在特殊问题，所以拒绝用它进行深拷贝。
+    data :this.$loadsh.cloneDeep(obj) // 传递JS对象并进行深拷贝
+})
+```
+
+```vue
+<template>
+  <div class="Test1" ref="Test1">Test1</div>
+</template>
+
+<script>
+export default {
+  name: 'Test1',
+  mounted () {
+    this.$bus.$on('mapIn', obj => {
+      if (obj.to == this.$refs.Map.__vue__.$vnode.componentOptions.tag && this.$refs.Map.__vue__[obj.methods]) {
+        this.$refs.Map.__vue__[obj.methods](obj.data)
+      }
+    })
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.Test1 {
+}
+</style>
+```
+
+
+
+- 图表
+
+```js
+this.$bus.$emit('chartIn', ...
+```
+
+```js
+this.$bus.$emit('chartOut', ..
+```
+
+
+
+- 表格
+
+```js
+this.$bus.$emit('tableIn', ...
+```
+
+```js
+this.$bus.$emit('tableOut', ...
+```
+
+
+
+- 页面
+
+```js
+this.$bus.$emit('pageIn', ...
+```
+
+```js
+this.$bus.$emit('pageOut', ...
 ```
 
 
@@ -251,23 +324,20 @@ await reqFile('/static/xxx.json')
 > >
 > > > page1.vue
 > > >
-> > > page1Map.vue
-> >
-> > page2
-> >
-> > > page2.vue
+> > 
+> >page2
+> > 
+> >> page2.vue
 > > >
-> > > page2Map.vue
-> >
+> > 
 > > page3
 > >
 > > > page3.vue
-> > >
-> > > page3Map.vue
->
+> >>
+> 
 > index.vue
 
-因采用特定的动画效果所以分成了多个文件，每个菜单最大支持三页，每一页都有独立的文件和地图。
+因采用特定的动画效果所以分成了多个文件，每个菜单最大支持三页，每一页都可独立设置地图。
 
 通过获取接口返回数据判断当前页与总页数，并且切换分页的时候采用懒加载模式，极大程度优化了性能。
 
@@ -278,14 +348,14 @@ await reqFile('/static/xxx.json')
 每次点击菜单拿到当前菜单数据并调用事件总线进行渲染
 
 ```js
-      res_initPage: {
+res_initPage: {
         ds: [
           // 第一页
           {
-            // 左容器
+            // 左容器组件
             leftComponents: [
               {
-                id: 666,
+                id: 665,
                 chName: 'Test3组件',
                 province: '江苏省',
                 city: '南京市',
@@ -293,35 +363,20 @@ await reqFile('/static/xxx.json')
                 fileCodes: '',
                 fileName: 'Test3',
                 order: 3,
-                paramObject: {},
+                paramObject: {}, // 实际存储base64字符串
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: '0 0 20px 0',
                 x: 100,
                 y: 100
-              },
+              }
               // ...
             ],
-            // 页面定位
-            centerComponents: [
+            // 页面定位组件
+            absoluteComponents: [
               {
                 id: 666,
-                chName: 'Test1组件',
-                province: '江苏省',
-                city: '南京市',
-                countyOrDistrict: '栖霞区',
-                fileCodes: '',
-                fileName: 'Test1', // 原pagecode
-                order: 1,
-                paramObject: {},
-                categoryCode: 'xxx类的code编码',
-                categoryName: 'xxx类',
-                time: '2022/11/06 15:35:09',
-                x: 500,
-                y: 100
-              },
-              {
-                id: 888,
                 chName: '页面标题组件',
                 province: '江苏省',
                 city: '南京市',
@@ -329,47 +384,61 @@ await reqFile('/static/xxx.json')
                 fileCodes: '',
                 fileName: 'PageTitle',
                 order: 1,
-                paramObject: { line1: 'b页面-第一页' },
+                paramObject: { line1: 'b页面-第一页' }, // 实际存储base64字符串
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 40,
-                y: 20
+                y: 130
               },
-              // ...
-            ],
-            // 右容器
-            rightComponents: [
               {
-                id: 666,
-                chName: 'Test3组件',
+                id: 6001,
+                chName: '地图',
                 province: '江苏省',
                 city: '南京市',
                 countyOrDistrict: '栖霞区',
                 fileCodes: '',
-                fileName: 'Test3',
+                fileName: 'Map',
                 order: 1,
-                paramObject: {},
+                paramObject: { line1: 'b页面-第一页' },
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
-                x: 100,
-                y: 100
-              },
+                margin: null,
+                x: 0,
+                y: 0
+              }
               // ...
             ],
-            showMap: true,
+            // 中间容器组件
+            centerComponets: [],
+            // 右容器组件
+            rightComponents: [],
+            // 左容器宽高位置
+            leftContainerWidth: '', // 如果不传则自适应
+            leftContainerHeight: '800', // 如果不传则自适应，如果存在则自动开启溢出隐藏与鼠标悬浮出滚动条
+            leftContainerX: '40',
+            leftContainerY: '160',
+
+            // 中间容器宽高位置
+            centerContainerWidth: '',
+            centerContainerHeight: '',
+            centerContainerX: '',
+            centerContainerY: '',
+
+            // 右容器宽高位置
+            rightContainerWidth: '',
+            rightContainerHeight: '',
+            rightContainerX: '', // 右容器中X对应right
+            rightContainerY: '',
           },
           // 第二页
-          {
-            // ...
-          },
+          {},
           // 第三页
-          {
-            // ...
-          }
+          {}
         ],
         defaultPage: 1, // 默认哪一页
         pageCount: 3, // 总页数
-      },
+      }
 ```

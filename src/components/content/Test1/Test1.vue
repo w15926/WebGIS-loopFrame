@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="Test1" :style="[{width:width+'px'},{height:height+'px'}]">Test1</div>
+  <div :id="receiveId" class="Test1" ref="Test1" :style="[{width:width+'px'},{height:height+'px'}]">Test1</div>
 </template>
 
 <script>
@@ -49,14 +49,12 @@ export default {
     }
   },
   created () {
-
   },
   mounted () {
     this.init()
   },
   methods: {
     init () {
-
     }
   },
   beforeDestroy () {

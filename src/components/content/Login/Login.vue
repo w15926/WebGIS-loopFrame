@@ -56,7 +56,7 @@ export default {
   background-color: #0b3657;
   .login-title {
     position: absolute;
-    top: 260px;
+    top: 15%;
     left: 0;
     width: 100%;
     text-align: center;

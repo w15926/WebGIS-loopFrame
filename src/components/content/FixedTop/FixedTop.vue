@@ -1,12 +1,12 @@
 <template>
-  <div class="Nav" :id="receiveId">
+  <div class="FixedTop" :id="receiveId">
     <div @click="refreshPage">{{$config.commonConfig.systemName}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Nav',
+  name: 'FixedTop',
   props: {
     receiveId: {
       type: String,
@@ -22,11 +22,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Nav {
-  position: relative;
+.FixedTop {
+  // 二选一
+  // position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 1920px;
   height: 120px;
   line-height: 100px;
   color: #fff;

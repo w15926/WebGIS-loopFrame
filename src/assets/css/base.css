@@ -1,3 +1,5 @@
+@import './scss.scss';
+
 * {
   box-sizing: border-box !important;
   margin: 0;

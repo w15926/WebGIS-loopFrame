@@ -8,8 +8,8 @@
  * @returns
  */
 <template>
-  <div>
-    <div :id="mapdivName" :style="{ position: 'absolute', width: widthStr, height: '100%' }"></div>
+  <div ref="OLMap">
+    <div :id="mapdivName" :style="[{'position': 'absolute',},{'width':width + 'px'},{'height':height + 'px'}]"></div>
     <div :id="popupdivName"></div>
   </div>
 </template>
@@ -55,8 +55,30 @@ import { fromExtent } from 'ol/geom/Polygon'
 var map
 let delete1
 export default {
-  name: '',
+  name: 'OLMap',
   props: {
+    // 地图ID
+    receiveId: {
+      type: String,
+      default: ""
+    },
+    // 接收对象
+    paramObject: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    // 地图宽度
+    width: {
+      type: String | Number,
+      default: "1920"
+    },
+    // 地图高度
+    height: {
+      type: String | Number,
+      default: "1080"
+    },
     mapMarkerSelect: {
       type: Object,
       default: () => { },
@@ -97,11 +119,6 @@ export default {
     htmlmony: {
       type: Object,
       default: () => { },
-    },
-    // 地图ID
-    mapID: {
-      type: String,
-      default: '',
     },
     // 缩放级别
     mapZoom: {
@@ -162,16 +179,16 @@ export default {
       windLayer: undefined,//风场图层
       mengBanLayer: undefined,//遮罩图层
       mapZooms: 0,
+      polygonList: [], // 存放 new的多边形
 
-      // 存放 new的多边形
-      polygonList: []
+      BusFrom: '', // 事件总结的from
     }
   },
   watch: {
-    mapID: {
+    receiveId: {
       handler (newV) {
         if (newV && newV !== '') {
-          this.mapID = newV
+          this.receiveId = newV
           this.mapdivName = 'map_' + newV
           this.popupdivName = 'popup_' + newV
         }
@@ -263,10 +280,15 @@ export default {
     },
   },
   created () {
-    // 初始化地图
-    this.$bus.$on('initMap_' + this.mapID, data => this.initMap(data))
+    // 事件监听
+    this.$bus.$on('mapIn', obj => {
+      if (obj.to === this.$options.name && this.$options.methods[obj.methods]) {
+        this.BusFrom = obj.from
+        this.$refs.OLMap.__vue__[obj.methods](obj.data)
+      }
+    })
     // addIconMarker
-    this.$bus.$on('addIconMarker', data => this.addIconMarker(data))
+    // this.$bus.$on('addIconMarker', data => this.addIconMarker(data))
   },
   methods: {
     // 初始化地图
@@ -382,7 +404,14 @@ export default {
       })
 
       // 地图加载成功
-      setTimeout(() => this.$bus.$emit(this.target + 'Success'), 0)
+      setTimeout(() => {
+        this.$bus.$emit('mapOut', {
+          from: 'OLMap',
+          to: null,
+          methods: 'loadedMap',
+          data: { page: JSON.parse(JSON.stringify(this.BusFrom)) }
+        })
+      }, 0)
     },
     // 清除地图
     clearMap (res) {
@@ -872,64 +901,63 @@ export default {
     },
     // 添加图标的方法
     addIconMarker (params) {
-      let res = params.data
       let index = 0
-      res.spotObject.map((resL, i) => {
+      params.spotObject.map((paramsL, i) => {
         // 清空上一次保留的
-        if (res.spotObject.length > 0) {
+        if (params.spotObject.length > 0) {
 
           // // 使用变量存储弹窗所需的 DOM 对象
           var popupId = document.getElementById(this.popupdivName)
-          resL.spotArrone.map((resB, k) => {
+          paramsL.spotArrone.map((paramsB, k) => {
             //新增放置overly的div
             let html = []
-            html.push(resB.htmlString)
+            html.push(paramsB.htmlString)
             var div = ''
             div = document.createElement('div')
             div.id =
-              (resB.otherData ? resB.otherData.markId : '') + this.popupdivName + 'mian' + index++
+              (paramsB.otherData ? paramsB.otherData.markId : '') + this.popupdivName + 'mian' + index++
             div.className = k
             div.innerHTML = html.join('')
             popupId.appendChild(div)
             //新增overly\
             var marker = new Overlay({
               //overly的位置[11,22]格式
-              position: [Number(resB.lng), Number(resB.lat)],
+              position: [Number(paramsB.lng), Number(paramsB.lat)],
               //overly放置的div
-              offset: [Number(resL.offsetX), Number(resL.offsetY)],
+              offset: [Number(paramsL.offsetX), Number(paramsL.offsetY)],
               element: div,
-              insertFirst: res.code ? false : true,
+              insertFirst: params.code ? false : true,
             })
             let obj = {
-              otherId: resB.otherData == undefined ? '' : resB.otherData.markId,
+              otherId: paramsB.otherData == undefined ? '' : paramsB.otherData.markId,
               overlay: marker,
               divId: div.id,
-              clickOpen: res.clickOpen,
-              resB: resB,
-              maxZoom: resL.maxZoom,
-              minZoom: resL.minZoom,
+              clickOpen: params.clickOpen,
+              paramsB: paramsB,
+              maxZoom: paramsL.maxZoom,
+              minZoom: paramsL.minZoom,
               visible: false
             }
             this.markerJson.push(obj)
             //逐个根据视野范围设置把overly添加到地图上
-            if (resL.minZoom || resL.maxZoom) {
-              if ((resL.minZoom && resL.minZoom < this.getzoom) || (resL.maxZoom && resL.maxZoom > this.getzoom)) {
+            if (paramsL.minZoom || paramsL.maxZoom) {
+              if ((paramsL.minZoom && paramsL.minZoom < this.getzoom) || (paramsL.maxZoom && paramsL.maxZoom > this.getzoom)) {
                 obj.visible = true
                 this.map.addOverlay(marker);
               }
             }
             else {
-              if (resL.bAni) {
+              if (paramsL.bAni) {
               } else {
                 this.map.addOverlay(marker);
                 obj.visible = true
               }
             }
             if (obj.visible) {
-              this.setMarkClickEvent(obj.divId, obj.clickOpen, obj.resB, obj.markId)
+              this.setMarkClickEvent(obj.divId, obj.clickOpen, obj.paramsB, obj.markId)
             }
-            if (res.hoverOpen) {
-              this.setMarkerHover(obj.divId, res.hoverOpen, obj.resB, obj.markId)
+            if (params.hoverOpen) {
+              this.setMarkerHover(obj.divId, params.hoverOpen, obj.paramsB, obj.markId)
             }
           })
         }

@@ -1,8 +1,11 @@
 <template>
   <div class="index" :style="{'width': $config.commonConfig.systemWidth, height: $config.commonConfig.systemHeight}">
 
-    <Nav />
-    <TopMenu class="topMenu" />
+    <!-- 所有页面固定顶部 -->
+    <FixedTop />
+    <!-- 所有页面固定底部 -->
+    <!-- <FixedBottom /> -->
+    <TopMenu />
 
     <Page0 :class="[{'page0':p1Animation},{'page0Left':p2Animation},{'page0Left2X':p3Animation}]" />
     <Page1 :class="[{'page1':p1Animation},{'page1Left':p2Animation},{'page1Left2X':p3Animation}]" />
@@ -62,7 +65,7 @@ export default {
         ds: [
           // 第一页
           {
-            // 左容器
+            // 左容器组件
             leftComponents: [
               {
                 id: 666,
@@ -77,6 +80,7 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: '0 0 20px 0',
                 x: 100,
                 y: 100
               },
@@ -93,6 +97,7 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: '0 0 20px 0',
                 x: 100,
                 y: 100
               },
@@ -109,6 +114,7 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: '0 0 20px 0',
                 x: 100,
                 y: 100
               },
@@ -125,12 +131,13 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 100,
                 y: 100
               },
             ],
-            // 页面定位
-            centerComponents: [
+            // 页面定位组件
+            absoluteComponents: [
               {
                 id: 666,
                 chName: 'Test1组件',
@@ -144,6 +151,7 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
+                margin: null,
                 x: 500,
                 y: 100
               },
@@ -160,6 +168,7 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 600,
                 y: 300
               },
@@ -176,8 +185,9 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 40,
-                y: 20
+                y: 130
               },
               {
                 id: 6001,
@@ -186,17 +196,20 @@ export default {
                 city: '南京市',
                 countyOrDistrict: '栖霞区',
                 fileCodes: '',
-                fileName: 'Map',
+                fileName: 'OLMap',
                 order: 1,
                 paramObject: { line1: 'b页面-第一页' },
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 0,
                 y: 0
               },
             ],
-            // 右容器
+            // 中间容器组件
+            centerComponets: [],
+            // 右容器组件
             rightComponents: [
               {
                 id: 666,
@@ -211,16 +224,33 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
                 x: 100,
                 y: 100
               },
             ],
-            showMap: true,
+            // 左容器宽高位置
+            leftContainerWidth: '', // 如果不传则自适应
+            leftContainerHeight: '800', // 如果不传则自适应，如果存在则自动开启溢出隐藏与鼠标悬浮出滚动条
+            leftContainerX: '40',
+            leftContainerY: '160',
+
+            // 中间容器宽高位置
+            centerContainerWidth: '',
+            centerContainerHeight: '',
+            centerContainerX: '',
+            centerContainerY: '',
+
+            // 右容器宽高位置
+            rightContainerWidth: '',
+            rightContainerHeight: '',
+            rightContainerX: '',
+            rightContainerY: '',
           },
           // 第二页
           {
             leftComponents: [],
-            centerComponents: [],
+            absoluteComponents: [],
             rightComponents: [{
               id: 666,
               chName: 'Test3组件',
@@ -241,7 +271,7 @@ export default {
           // 第三页
           {
             leftComponents: [],
-            centerComponents: [
+            absoluteComponents: [
               {
                 id: 6002,
                 chName: '地图',
@@ -249,7 +279,7 @@ export default {
                 city: '南京市',
                 countyOrDistrict: '栖霞区',
                 fileCodes: '',
-                fileName: 'Map',
+                fileName: 'OLMap',
                 order: 1,
                 paramObject: { line1: 'b页面-第一页' },
                 categoryCode: 'xxx类的code编码',
@@ -309,29 +339,34 @@ export default {
     this.$bus.$on('changeTopMenu', data => this.changeTopMenu(data))
   },
   mounted () {
-    // 分页阴影
-    document.addEventListener('mousemove', e => {
-      if (e.clientX <= 150) this.isLeftOpacity = true
-      else this.isLeftOpacity = false
-      if (window.innerWidth - e.clientX <= 150) this.isRightOpacity = true
-      else this.isRightOpacity = false
-    })
-
-    // 系统背景
-    if (this.$config.commonConfig.systemBg) {
-      if (this.$config.commonConfig.systemBg.color) {
-        document.querySelector('.index').style.backgroundColor = this.$config.commonConfig.systemBg.color
-      }
-      if (this.$config.commonConfig.systemBg.url) {
-        const div = document.querySelector('.index')
-        div.style.backgroundImage = `url(../${this.$config.commonConfig.systemBg.url})`
-        div.style.backgroundSize = '100% 100%'
-      }
-    }
-
+    this.initSystemFn()
     this.initPage()
   },
   methods: {
+    // 初始化系统功能
+    initSystemFn () {
+      // 分页阴影
+      document.addEventListener('mousemove', e => {
+        if (e.clientX <= 150) this.isLeftOpacity = true
+        else this.isLeftOpacity = false
+        if (window.innerWidth - e.clientX <= 150) this.isRightOpacity = true
+        else this.isRightOpacity = false
+      })
+
+      // 系统背景
+      if (this.$config.commonConfig.systemBg) {
+        if (this.$config.commonConfig.systemBg.color) {
+          document.querySelector('.index').style.backgroundColor = this.$config.commonConfig.systemBg.color
+        }
+        if (this.$config.commonConfig.systemBg.url) {
+          const div = document.querySelector('.index')
+          div.style.backgroundImage = `url(../${this.$config.commonConfig.systemBg.url})`
+          div.style.backgroundSize = '100% 100%'
+        }
+      }
+
+    },
+    // 初始化页面
     initPage (receiveData) {
       // 调取接口
 
@@ -362,7 +397,7 @@ export default {
                   }
                 ],
                 // 页面定位
-                centerComponents: [
+                absoluteComponents: [
                   {
                     id: 666,
                     chName: '地图',
@@ -370,7 +405,7 @@ export default {
                     city: '南京市',
                     countyOrDistrict: '栖霞区',
                     fileCodes: '',
-                    fileName: 'Map',
+                    fileName: 'OLMap',
                     order: 1,
                     paramObject: { line1: 'b页面-第一页' },
                     categoryCode: 'xxx类的code编码',
@@ -387,7 +422,7 @@ export default {
               // 第二页
               {
                 leftComponents: [],
-                centerComponents: [],
+                absoluteComponents: [],
                 rightComponents: [{
                   id: 666,
                   chName: 'Test3组件',
@@ -419,7 +454,7 @@ export default {
                 // 左容器
                 leftComponents: [],
                 // 页面定位
-                centerComponents: [],
+                absoluteComponents: [],
                 // 右容器
                 rightComponents: [
                   {
@@ -439,7 +474,6 @@ export default {
                     y: 100
                   }
                 ],
-                showMap: true,
                 moduleTitle: 'CPage-1',
               },
             ],
@@ -502,7 +536,7 @@ export default {
       temp[pageNum].isActive = true
       this.switchPage = temp
 
-      // 分页动画
+      // 分页动画/懒加载
       {
         this.pageList = []
         this.pageList.push('Page')
@@ -512,7 +546,12 @@ export default {
           this.p3Animation = false
           if (!this.isRenderPage1) {
             this.isRenderPage1 = true
-            this.$bus.$emit('renderPage1', this.res_initPage.ds[0])
+            this.$bus.$emit('pageIn', {
+              from: 'index',
+              to: 'Page1',
+              methods: 'renderPage1',
+              data: this.$loadsh.cloneDeep(this.res_initPage.ds[0])
+            })
           }
         }
         if (pageNum === 1) {
@@ -520,8 +559,13 @@ export default {
           this.p2Animation = true
           this.p3Animation = false
           if (!this.isRenderPage2) {
-            this.$bus.$emit('renderPage2', this.res_initPage.ds[1])
             this.isRenderPage2 = true
+            this.$bus.$emit('pageIn', {
+              from: 'index',
+              to: 'Page2',
+              methods: 'renderPage2',
+              data: this.$loadsh.cloneDeep(this.res_initPage.ds[1])
+            })
           }
         }
         if (pageNum === 2) {
@@ -529,8 +573,13 @@ export default {
           this.p2Animation = false
           this.p3Animation = true
           if (!this.isRenderPage3) {
-            this.$bus.$emit('renderPage3', this.res_initPage.ds[2])
             this.isRenderPage3 = true
+            this.$bus.$emit('pageIn', {
+              from: 'index',
+              to: 'Page3',
+              methods: 'renderPage3',
+              data: this.$loadsh.cloneDeep(this.res_initPage.ds[2])
+            })
           }
         }
       }
@@ -566,13 +615,7 @@ export default {
   left: 0;
   // width: 1920px;
   // height: 1080px;
-  overflow: hidden;
-  .topMenu {
-    position: absolute;
-    top: 130px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  // overflow: hidden;
   .pageSwitch {
     position: absolute;
     top: 140px;

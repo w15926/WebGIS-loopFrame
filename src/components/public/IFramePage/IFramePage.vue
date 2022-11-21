@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 .IFramePage {
-  position: relative;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   background-color: #000;
