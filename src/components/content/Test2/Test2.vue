@@ -16,6 +16,10 @@ export default {
       type: String,
       default: "",
     },
+    triggerIds: {
+      type: String,
+      default: ''
+    },
     width: {
       type: String | Number,
       default: "600"
@@ -62,7 +66,6 @@ export default {
   },
   methods: {
     init () {
-
     },
     test_addIconMarker () {
       let Arrone = []
@@ -90,6 +93,7 @@ export default {
         from: this.$options.name,
         to: 'OLMap',
         methods: 'addIconMarker',
+        triggerIds: this.triggerIds,
         data: this.$loadsh.cloneDeep(marker_points) // 深拷贝
       })
     }

@@ -81,6 +81,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
+                triggerIds: '',
                 x: 100,
                 y: 100
               },
@@ -98,6 +99,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
+                triggerIds: '',
                 x: 100,
                 y: 100
               },
@@ -115,6 +117,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
+                triggerIds: '',
                 x: 100,
                 y: 100
               },
@@ -132,6 +135,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: '',
                 x: 100,
                 y: 100
               },
@@ -152,6 +156,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
                 margin: null,
+                triggerIds: '',
                 x: 500,
                 y: 100
               },
@@ -169,6 +174,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: 'OLMap_6001',
                 x: 600,
                 y: 300
               },
@@ -186,6 +192,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: '',
                 x: 40,
                 y: 130
               },
@@ -203,6 +210,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: 'OLMap_6001',
                 x: 0,
                 y: 0
               },
@@ -225,6 +233,7 @@ export default {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: '',
                 x: 100,
                 y: 100
               },
@@ -264,6 +273,8 @@ export default {
               categoryCode: 'xxx类的code编码',
               categoryName: 'xxx类',
               time: '2022/11/06 15:35:09',
+              margin: null,
+              triggerIds: '',
               x: 100,
               y: 100
             },],
@@ -285,6 +296,8 @@ export default {
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
+                margin: null,
+                triggerIds: 'OLMap_6002',
                 x: 0,
                 y: 0
               },
@@ -392,6 +405,8 @@ export default {
                     categoryCode: 'xxx类的code编码',
                     categoryName: 'xxx类',
                     time: '2022/11/06 15:35:09',
+                    margin: null,
+                    triggerIds: '',
                     x: 100,
                     y: 100
                   }
@@ -411,6 +426,8 @@ export default {
                     categoryCode: 'xxx类的code编码',
                     categoryName: 'xxx类',
                     time: '2022/11/06 15:35:09',
+                    margin: null,
+                    triggerIds: 'OLMap_666',
                     x: 0,
                     y: 0
                   },
@@ -436,6 +453,8 @@ export default {
                   categoryCode: 'xxx类的code编码',
                   categoryName: 'xxx类',
                   time: '2022/11/06 15:35:09',
+                  margin: null,
+                  triggerIds: '',
                   x: 100,
                   y: 100
                 },],
@@ -470,6 +489,8 @@ export default {
                     categoryCode: 'xxx类的code编码',
                     categoryName: 'xxx类',
                     time: '2022/11/06 15:35:09',
+                    margin: null,
+                    triggerIds: '',
                     x: 100,
                     y: 100
                   }

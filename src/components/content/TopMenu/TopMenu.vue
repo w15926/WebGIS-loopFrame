@@ -15,7 +15,11 @@ export default {
     receiveId: {
       type: String,
       default: "",
-    }
+    },
+    triggerIds: {
+      type: String,
+      default: ''
+    },
   },
   data () {
     return {

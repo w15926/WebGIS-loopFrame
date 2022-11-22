@@ -11,15 +11,16 @@
       {'height':  page2Config.leftContainerHeight ? page2Config.leftContainerHeight + 'px' : ''},
       {'overflow':  page2Config.leftContainerWidth || page2Config.leftContainerHeight ? 'hidden' : '' }
       ]">
-        <component v-for="(item, index) in page2Config.leftComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-          :paramObject="item.paramObject" :width="item.width" :height="item.heitht" :style="{'margin': item.margin || '0'}" />
+        <component v-for="(item, index) in page2Config.leftComponents" :receiveId="item.fileName + '_' + item.id" :key="index" :is="item.fileName"
+          :fileCodes="item.fileCodes" :paramObject="item.paramObject" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht"
+          :style="{'margin': item.margin || '0'}" />
       </div>
     </template>
 
     <!-- 绝对定位 -->
     <template v-if="page2Config && page2Config.absoluteComponents">
-      <component v-for="(item, index) in page2Config.absoluteComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-        :paramObject="item.paramObject" :width="item.width" :height="item.heitht"
+      <component v-for="(item, index) in page2Config.absoluteComponents" :receiveId="item.fileName + '_' + item.id" :key="index" :is="item.fileName"
+        :fileCodes="item.fileCodes" :paramObject="item.paramObject" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht"
         :style="{ 'position': 'absolute', 'left': item.x + 'px', top: item.y + 'px', 'zIndex': item.fileName === 'OLMap' ? '' : '1' }" />
     </template>
 
@@ -32,8 +33,9 @@
       {'height':  page2Config.centerContainerHeight ? page2Config.centerContainerHeight + 'px' : ''},
       {'overflow':  page2Config.centerContainerWidth || page2Config.centerContainerHeight ? 'hidden' : '' }
       ]">
-        <component v-for="(item, index) in page2Config.centerComponets" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-          :width="item.width" :height="item.heitht" :paramObject="item.paramObject" :style="{'margin': item.margin || '0'}" />
+        <component v-for="(item, index) in page2Config.centerComponets" :receiveId="item.fileName + '_' + item.id" :key="index" :is="item.fileName"
+          :fileCodes="item.fileCodes" :paramObject="item.paramObject" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht"
+          :style="{'margin': item.margin || '0'}" />
       </div>
     </template>
 
@@ -46,8 +48,8 @@
       {'height':  page2Config.rightContainerHeight ? page2Config.rightContainerHeight + 'px' : ''},
       {'overflow':  page2Config.rightContainerWidth || page2Config.rightContainerHeight ? 'hidden' : '' }
       ]">
-        <component v-for="(item, index) in page2Config.rightComponents" :receiveId="item.fileName + item.id" :key="index" :is="item.fileName" :fileCodes="item.fileCodes"
-          :width="item.width" :height="item.heitht" :paramObject="item.paramObject" :style="{'margin': item.margin || '0'}" />
+        <component v-for="(item, index) in page2Config.rightComponents" :receiveId="item.fileName + '_' + item.id" :key="index" :is="item.fileName"
+          :fileCodes="item.fileCodes" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht" :paramObject="item.paramObject" :style="{'margin': item.margin || '0'}" />
       </div>
     </template>
     <!---------------------------------------------- 组件循环 end ---------------------------------------------->
@@ -144,6 +146,7 @@ export default {
               from: this.$options.name,
               to: 'OLMap',
               methods: 'initMap',
+              triggerIds: item.triggerIds,
               data: obj
             })
             break

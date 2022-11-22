@@ -283,11 +283,17 @@ export default {
     // 事件监听
     this.$bus.$on('mapIn', obj => {
       if (obj.to === this.$options.name && this.$options.methods[obj.methods]) {
-        this.BusFrom = obj.from
-        this.$refs.OLMap.__vue__[obj.methods](obj.data)
+        if (obj.triggerIds) {
+          let containArr = obj.triggerIds.split(',')
+          for (const item of containArr) {
+            if (item.indexOf(this.receiveId) > -1) {
+              this.BusFrom = obj.from
+              this.$refs.OLMap.__vue__[obj.methods](obj.data)
+            }
+          }
+        }
       }
     })
-    // addIconMarker
     // this.$bus.$on('addIconMarker', data => this.addIconMarker(data))
   },
   methods: {
@@ -297,6 +303,7 @@ export default {
         this.map.setTarget(null)
         this.map = null
         this.target = ''
+        this.latlngObj = {}
       }
 
       this.latlngObj = params
@@ -409,6 +416,7 @@ export default {
           from: 'OLMap',
           to: null,
           methods: 'loadedMap',
+          triggerIds: '',
           data: { page: JSON.parse(JSON.stringify(this.BusFrom)) }
         })
       }, 0)

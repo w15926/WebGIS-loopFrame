@@ -10,6 +10,10 @@ export default {
       type: String,
       default: ""
     },
+    triggerIds: {
+      type: String,
+      default: ''
+    },
     width: {
       type: String | Number,
       default: "100"
