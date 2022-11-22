@@ -15,8 +15,8 @@ export default {
       default: "",
     },
     paramObject: {
-      type: Object,
-      default: () => { }
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -27,9 +27,9 @@ export default {
   watch: {
     paramObject: {
       handler (newV) {
-       this.pageTitle = newV
+        this.pageTitle = newV
       },
-      immediate:true
+      immediate: true
     }
   },
   created () {

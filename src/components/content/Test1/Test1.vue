@@ -27,8 +27,8 @@ export default {
       default: ''
     },
     paramObject: {
-      type: Object,
-      default: () => { }
+      type: String,
+      default: ''
     }
   },
   data () {

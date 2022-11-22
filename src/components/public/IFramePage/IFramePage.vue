@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="IFramePage" :style="[{width:width+'px'},{height:height+'px'}]">
+  <div class="IFramePage">
 
     <template v-if="$config.commonConfig.IFramePage.IFrameUrl">
       <iframe :src="$config.commonConfig.IFramePage.IFrameUrl" height="100%" width="100%" frameborder="0" scrolling="0" />

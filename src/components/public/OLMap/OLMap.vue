@@ -416,7 +416,7 @@ export default {
           from: 'OLMap',
           to: null,
           methods: 'loadedMap',
-          triggerIds: '',
+          triggerIds: this.receiveId + '',
           data: { page: JSON.parse(JSON.stringify(this.BusFrom)) }
         })
       }, 0)

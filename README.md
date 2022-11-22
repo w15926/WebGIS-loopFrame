@@ -251,7 +251,7 @@ export default {
   name: 'Test1',
   mounted () {
     this.$bus.$on('mapIn', obj => {
-      if (obj.to == this.$refs.Map.__vue__.$vnode.componentOptions.tag && this.$refs.Map.__vue__[obj.methods]) {
+      if (obj.to === this.$refs.Map.__vue__.$vnode.componentOptions.tag && this.$refs.Map.__vue__[obj.methods]) {
         this.$refs.Map.__vue__[obj.methods](obj.data)
       }
     })

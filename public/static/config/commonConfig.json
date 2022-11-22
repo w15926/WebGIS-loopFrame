@@ -7,9 +7,9 @@
   "systemCode": "",
   "systemWidth": "1920px",
   "systemHeight": "1080px",
-  "systemLogin": false,
+  "systemLogin": true,
   "IFramePage": {
-    "showPage": false,
+    "showPage": true,
     "IFrameUrl": "https://otqk44.csb.app/",
     "imgUrl": "/static/bg@2x.png"
   },
