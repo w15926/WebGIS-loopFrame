@@ -12,12 +12,13 @@
 >
 > 有问题可在我GitHub上Issues里进行留言https://github.com/w15926/WebGIS-loopFrame/
 
-|    日期    | 修订版本 |        修改描述        |  作者  |
-| :--------: | :------: | :--------------------: | :----: |
-| 2022/11/10 |   2.2    |          初稿          | 王乐翔 |
-| 2022/11/16 |   2.3    |        架构更新        | 王乐翔 |
-| 2022/11/21 |   2.4    |        架构更新        | 王乐翔 |
-| 2022/11/21 |  2.4.1   | 处理scss文件引用的问题 | 王乐翔 |
+|    日期    | 修订版本 |          修改描述          |  作者  |
+| :--------: | :------: | :------------------------: | :----: |
+| 2022/11/10 |   2.2    |            初稿            | 王乐翔 |
+| 2022/11/16 |   2.3    |          架构更新          | 王乐翔 |
+| 2022/11/21 |   2.4    |          架构更新          | 王乐翔 |
+| 2022/11/21 |  2.4.1   |   处理scss文件引用的问题   | 王乐翔 |
+| 2022/11/21 |  2.4.2   | 处理单页面通信多次触发问题 | 王乐翔 |
 
 
 
@@ -234,6 +235,7 @@ this.$bus.$emit('mapIn',{
     from: '', // 从哪来
     to: null, // 到哪去（为null是指所有组件都可以接受）
     methods: null, // 去的页面要触发的方法
+	  triggerIds: '', // 需要触发交互的组件，传组件的receiveId过来，用逗号分隔。
   	// 因JSON.parse(JSON.stringify())存在特殊问题，所以拒绝用它进行深拷贝。
     data :this.$loadsh.cloneDeep(obj) // 传递JS对象并进行深拷贝
 })
@@ -261,6 +263,10 @@ export default {
 .Test1 {
 }
 </style>
+```
+
+```js
+this.$bus.$emit('mapOut', ..
 ```
 
 
@@ -364,11 +370,12 @@ res_initPage: {
                 fileCodes: '',
                 fileName: 'Test3',
                 order: 3,
-                paramObject: {}, // 实际存储base64字符串
+                paramObject: {},
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
+                triggerIds: '',
                 x: 100,
                 y: 100
               }
@@ -390,6 +397,7 @@ res_initPage: {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: '', // 触发交互的组件，传组件的receiveId过来，用逗号分隔。
                 x: 40,
                 y: 130
               },
@@ -407,6 +415,7 @@ res_initPage: {
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
                 margin: null,
+                triggerIds: '',
                 x: 0,
                 y: 0
               }
