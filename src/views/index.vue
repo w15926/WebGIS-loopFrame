@@ -82,8 +82,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 100,
                 y: 100
               },
@@ -102,8 +100,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 100,
                 y: 100
               },
@@ -122,8 +118,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: '0 0 20px 0',
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 100,
                 y: 100
               },
@@ -142,8 +136,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 100,
                 y: 100
               },
@@ -165,8 +157,6 @@ export default {
                 time: '2022/11/06 15:35:09', // 不需要传三个：inputtime、updatetime、observationtime对前端来说的无效代码
                 margin: null,
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 500,
                 y: 100
               },
@@ -185,8 +175,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: 'OLMap_6001',
-                width: '',
-                height: '',
                 x: 600,
                 y: 300
               },
@@ -205,8 +193,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 40,
                 y: 130
               },
@@ -225,8 +211,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: 'OLMap_6001',
-                width: '',
-                height: '',
                 x: 0,
                 y: 0
               },
@@ -250,8 +234,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: '',
-                width: '',
-                height: '',
                 x: 100,
                 y: 100
               },
@@ -293,8 +275,6 @@ export default {
               time: '2022/11/06 15:35:09',
               margin: null,
               triggerIds: '',
-              width: '',
-              height: '',
               x: 100,
               y: 100
             },],
@@ -318,8 +298,6 @@ export default {
                 time: '2022/11/06 15:35:09',
                 margin: null,
                 triggerIds: 'OLMap_6002',
-                width: '',
-                height: '',
                 x: 0,
                 y: 0
               },
