@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="Test3" :style="[{width:width+'px'},{height:height+'px'}]">
+  <div :id="receiveId" class="Test3" :style="[{'width':width ? width + 'px' : '490px'},{'height': height ? height + 'px' : '250px'}]">
     Test3
   </div>
 </template>
@@ -21,11 +21,9 @@ export default {
     },
     width: {
       type: String | Number,
-      default: "490"
     },
     height: {
       type: String | Number,
-      default: "250"
     },
     fileCodes: {
       type: String,
@@ -76,8 +74,8 @@ export default {
 
 <style lang="scss" scoped>
 .Test3 {
-  width: 490px;
-  height: 250px;
+  // width: 490px;
+  // height: 250px;
   font-size: 30px;
   background-color: wheat;
 }

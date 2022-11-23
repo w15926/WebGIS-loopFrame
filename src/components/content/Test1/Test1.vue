@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="Test1" ref="Test1" :style="[{width:width+'px'},{height:height+'px'}]">Test1</div>
+  <div :id="receiveId" class="Test1" ref="Test1" :style="[{'width':width ? width + 'px' : '100px'},{'height': height ? height + 'px' : '100px'}]">Test1</div>
 </template>
 
 <script>
@@ -16,11 +16,9 @@ export default {
     },
     width: {
       type: String | Number,
-      default: "100"
     },
     height: {
       type: String | Number,
-      default: "100"
     },
     fileCodes: {
       type: String,

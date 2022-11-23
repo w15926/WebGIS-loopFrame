@@ -9,7 +9,7 @@
  */
 <template>
   <div ref="OLMap">
-    <div :id="mapdivName" :style="[{'position': 'absolute',},{'width':width + 'px'},{'height':height + 'px'}]"></div>
+    <div :id="mapdivName" :style="[{'position': 'absolute',},{'width':width ? width + 'px' : '1920px'},{'height': height ? height + 'px' : '1080px'}]"></div>
     <div :id="popupdivName"></div>
   </div>
 </template>
@@ -64,10 +64,7 @@ export default {
     },
     // 接收对象
     paramObject: {
-      type: Object,
-      default () {
-        return {}
-      }
+      type: String
     },
     // 地图宽度
     width: {

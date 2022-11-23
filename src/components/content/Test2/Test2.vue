@@ -1,5 +1,5 @@
 <template>
-  <div :id="receiveId" class="Test2" ref="Test2" :style="[{width:width+'px'},{height:height+'px'}]">
+  <div :id="receiveId" class="Test2" ref="Test2" :style="[{'width':width ? width + 'px' : '600px'},{'height': height ? height + 'px' : '100px'}]">
     Test2
     <div @click="test_addIconMarker">点我在“首页第一页地图”上添加图标🐷</div>
   </div>
@@ -22,11 +22,9 @@ export default {
     },
     width: {
       type: String | Number,
-      default: "600"
     },
     height: {
       type: String | Number,
-      default: "100"
     },
     fileCodes: {
       type: String,
