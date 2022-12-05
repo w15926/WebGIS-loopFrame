@@ -9,6 +9,7 @@ import * as echarts from 'echarts'
 import 'element-ui/lib/theme-chalk/index.css'
 import { Base64 } from 'js-base64'
 import * as methods from './utils/methods'
+import './components/index.js'
 // import { reqFile } from '@/utils/request'
 
 // 导入config目录下所有的json文件

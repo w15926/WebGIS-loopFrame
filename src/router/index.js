@@ -23,7 +23,7 @@ const router = new VueRouter({
   try_files $uri $uri/ /index.html;
   }
  */
-  mode: 'history', 
+  // mode: 'history', 
   routes
 })
 

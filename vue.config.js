@@ -10,7 +10,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -21,7 +21,7 @@ module.exports = defineConfig({
     open: false,
     proxy: {
       '/apis': {
-        target: 'http://58.59.29.51:11014',
+        target: 'xxx',
         changeOrigin: true,
         pathRewrite: {
           '/apis': ''
@@ -29,9 +29,6 @@ module.exports = defineConfig({
       },
       '/api': {
         target: 'http://192.168.3.222:9000',
-        // target: 'https://www.hainanqx.cn',
-        // target: 'http://10.76.30.58', // 黄岛内网
-        // target: 'http://58.59.29.51:11014', // 黄岛外网
         changeOrigin: true,
         pathRewrite: {
           '/api': ''
