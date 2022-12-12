@@ -195,14 +195,16 @@ export default {
   .centerContainer,
   .rightContainer {
     position: absolute;
+    overflow: hidden;
     z-index: 1;
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
     &:hover {
+      overflow-x: hidden;
+      overflow-y: overlay;
       &::-webkit-scrollbar {
         width: 6px;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: rgba($color: #000000, $alpha: 0.3);
-        border-radius: 3px;
       }
     }
   }
