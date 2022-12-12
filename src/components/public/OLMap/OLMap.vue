@@ -410,7 +410,7 @@ export default {
       // 地图加载成功
       setTimeout(() => {
         this.$bus.$emit('mapOut', {
-          from: 'OLMap',
+          from: this.$options.name,
           to: null,
           methods: 'loadedMap',
           triggerIds: this.receiveId + '',
