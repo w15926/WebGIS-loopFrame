@@ -244,29 +244,25 @@ this.$bus.$emit('mapIn',{
 })
 ```
 
-```vue
-<template>
-  <div class="Test1" ref="Test1">Test1</div>
-</template>
-
-<script>
-export default {
-  name: 'Test1',
-  mounted () {
+```js
     this.$bus.$on('mapIn', obj => {
-      if (obj.to === this.$options.name && this.this.$options.methods[obj.methods]) {
-        this.$refs.Map.__vue__[obj.methods](obj.data)
+      if (obj.to === this.$options.name && this.$options.methods[obj.methods]) {
+        if (obj.triggerIds) {
+          let containArr = obj.triggerIds.split(',')
+          for (const item of containArr) {
+            this.BusFrom = obj.from
+             try {
+               this.$refs.OLMap.__vue__[obj.methods](obj.data)
+             } catch (error) {
+               Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+             }
+          }
+        }
       }
     })
-  }
-}
-</script>
-
-<style lang="scss" scoped>
-.Test1 {
-}
-</style>
 ```
+
+
 
 ```js
 this.$bus.$emit('mapOut', ..

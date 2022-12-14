@@ -283,9 +283,13 @@ export default {
         if (obj.triggerIds) {
           let containArr = obj.triggerIds.split(',')
           for (const item of containArr) {
-            if (item.indexOf(this.receiveId) > -1) {
+            if (this.receiveId.indexOf(item) > -1) {
               this.BusFrom = obj.from
-              this.$refs.OLMap.__vue__[obj.methods](obj.data)
+              try {
+                this.$refs.OLMap.__vue__[obj.methods](obj.data)
+              } catch (error) {
+                Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+              }
             }
           }
         }
