@@ -198,7 +198,8 @@ export default {
   top: 0;
   left: 0;
   width: 100px;
-  height: 1080px;
+  // height: 1080px;
+  height: 100%;
   background: linear-gradient(to right, rgba(101, 101, 101, 0.5), transparent);
   z-index: 9997;
 }
@@ -207,7 +208,8 @@ export default {
   top: 0;
   right: 0;
   width: 100px;
-  height: 1080px;
+  // height: 1080px;
+  height: 100%;
   background: linear-gradient(to left, rgba(101, 101, 101, 0.5), transparent);
   z-index: 9997;
 }
