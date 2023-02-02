@@ -70,14 +70,22 @@ export default {
     // 渲染页面
     this.$bus.$on('pageIn', obj => {
       if (obj.to === this.$options.name && this.$options.methods[obj.methods]) {
-        this.$refs.Page3.__vue__[obj.methods](obj.data)
+        try {
+          this.$refs.Page3.__vue__[obj.methods](obj.data)
+        } catch (error) {
+          Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+        }
       }
     })
 
     this.$bus.$on('mapOut', obj => {
       // 当前页地图加载完成
       if (obj.methods === 'loadedMap' && obj.data.page === this.$options.name) {
-        this.$refs.Page3.__vue__[obj.methods]()
+        try {
+          this.$refs.Page3.__vue__[obj.methods]()
+        } catch (error) {
+          Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+        }
       }
     })
   },

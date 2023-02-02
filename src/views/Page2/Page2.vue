@@ -49,7 +49,8 @@
       {'overflow':  page2Config.rightContainerWidth || page2Config.rightContainerHeight ? 'hidden' : '' }
       ]">
         <component v-for="(item, index) in page2Config.rightComponents" :receiveId="item.fileName + '_' + item.id" :key="index" :is="item.fileName"
-          :fileCodes="item.fileCodes" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht" :paramObject="item.paramObject" :style="{'margin': item.margin || '0'}" />
+          :fileCodes="item.fileCodes" :triggerIds="item.triggerIds" :width="item.width" :height="item.heitht" :paramObject="item.paramObject"
+          :style="{'margin': item.margin || '0'}" />
       </div>
     </template>
     <!---------------------------------------------- 组件循环 end ---------------------------------------------->
@@ -69,14 +70,22 @@ export default {
     // 渲染页面
     this.$bus.$on('pageIn', obj => {
       if (obj.to === this.$options.name && this.$options.methods[obj.methods]) {
-        this.$refs.Page2.__vue__[obj.methods](obj.data)
+        try {
+          this.$refs.Page2.__vue__[obj.methods](obj.data)
+        } catch (error) {
+          Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+        }
       }
     })
 
     this.$bus.$on('mapOut', obj => {
       // 当前页地图加载完成
       if (obj.methods === 'loadedMap' && obj.data.page === this.$options.name) {
-        this.$refs.Page2.__vue__[obj.methods]()
+        try {
+          this.$refs.Page2.__vue__[obj.methods]()
+        } catch (error) {
+          Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+        }
       }
     })
   },
