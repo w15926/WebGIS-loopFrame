@@ -372,6 +372,18 @@ export default {
   created () {
     // 改变顶部菜单
     this.$bus.$on('changeTopMenu', data => this.changeTopMenu(data))
+
+    // 实际开发中根据组件from而使用下面代码
+    // this.$bus.$on('pageOut', obj => {
+    //   // 改变顶部菜单
+    //   if (obj.from === '' && obj.methods === 'changeTopMenu') {
+    //     try {
+    //       this.$refs.ref_index.__vue__[obj.methods](obj.data)
+    //     } catch (error) {
+    //       Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
+    //     }
+    //   }
+    // })
   },
   mounted () {
     this.initSystemFn()
