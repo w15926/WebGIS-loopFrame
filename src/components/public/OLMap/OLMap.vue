@@ -2,9 +2,9 @@
  * @description open layers map
  * @author 
  * @createDate 
- * @lastEditDate 2022/11/14
+ * @lastEditDate 2022/12/13
  * @lastEditAuthor 王乐翔
- * @lastDescription 起步修改了地图监听方式
+ * @lastDescription 增加了自定义marker的自定义子元素点击事件
  * @returns
  */
 <template>
@@ -54,32 +54,110 @@ import { WindLayer } from 'ol-wind'
 import { fromExtent } from 'ol/geom/Polygon'
 var map
 let delete1
+var mapUrl = {
+  /****
+   * 高德地图
+   * lang可以通过zh_cn设置中文，en设置英文，size基本无作用，scl设置标注还是底图，scl=1代表注记，
+   * scl=2代表底图（矢量或者影像），style设置影像和路网，style=6为影像图，
+   * vec——街道底图
+   * img——影像底图
+   * roadLabel---路网+标注
+   */
+  'aMap-img':
+    'http://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+  'aMap-vec':
+    'http://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+  'aMap-roadLabel':
+    'http://webst0{1-4}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}',
+  /***
+   *高德新版地图*
+   */
+  'aMap-vec-a':
+    'http://wprd0{1-4}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7', //7为矢量图（含路网、含注记）
+
+  'aMap-img-n':
+    'http://wprd0{1-4}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=6', //6为影像底图（不含路网，不含注记）
+
+  'aMap-img-a':
+    'http://wprd0{1-4}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=8', //8为影像路图（含路网，含注记）
+
+  /***
+   * 天地图 要key的
+   * vec——街道底图
+   * img——影像底图
+   * ter——地形底图
+   * cva——中文注记
+   * cta/cia——道路+中文注记 ---roadLabel
+   */
+  'tian-img':
+    'http://t{0-7}.tianditu.gov.cn/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=你的密钥',
+  'tian-roadLabel':
+    'http://t{0-7}.tianditu.gov.cn/DataServer?T=cta_w&x={x}&y={y}&l={z}&tk=你的密钥',
+  'tian-label':
+    'http://t{0-7}.tianditu.gov.cn/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=你的密钥',
+  'tian-vec':
+    'http://t{0-7}.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=你的密钥',
+  'tian-ter':
+    'http://t{0-7}.tianditu.gov.cn/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=你的密钥',
+  /***
+   *geoq地图
+   * http://cache1.arcgisonline.cn
+   * http://map.geoq.cn
+   * vec：标准彩色地图
+   * gray、blue、warm
+   * line 中国轮廓图
+   * china 中国轮廓图+标注
+   * Hydro 水系
+   * green 植被
+   */
+  'geoq-vec':
+    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}',
+  'geoq-gray':
+    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer/tile/{z}/{y}/{x}',
+  'geoq-blue':
+    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+  'geoq-warm':
+    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer/tile/{z}/{y}/{x}',
+  'geoq-line':
+    'http://cache1.arcgisonline.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer/tile/{z}/{y}/{x}', //不稳定
+  'geoq-china':
+    'http://thematic.geoq.cn/arcgis/rest/services/ThematicMaps/administrative_division_boundaryandlabel/MapServer/tile/{z}/{y}/{x}', //不稳定
+  'geoq-Hydro':
+    'http://thematic.geoq.cn/arcgis/rest/services/ThematicMaps/WorldHydroMap/MapServer/tile/{z}/{y}/{x}', //不稳定
+  'geoq-green':
+    'http://thematic.geoq.cn/arcgis/rest/services/ThematicMaps/vegetation/MapServer/tile/{z}/{y}/{x}', //不稳定
+  /***
+   * Google
+   * m 街道
+   * s 影像
+   */
+  'google-vec':
+    'http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}',
+  'google-img':
+    'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',
+}
 export default {
   name: 'OLMap',
   props: {
     // 地图ID
     receiveId: {
       type: String,
-      default: ""
+      default: ''
     },
     // 接收对象
     paramObject: {
-      type: String
+      type: String,
+      default: ''
     },
     // 地图宽度
     width: {
-      type: String | Number,
-      default: "1920"
+      type: String | Number
     },
     // 地图高度
     height: {
-      type: String | Number,
-      default: "1080"
+      type: String | Number
     },
-    mapMarkerSelect: {
-      type: Object,
-      default: () => { },
-    },
+
     mapPoint: {
       type: Object,
       default: () => { },
@@ -89,16 +167,7 @@ export default {
       type: Object,
       default: () => { },
     },
-    // 面
-    mapPolygon: {
-      type: Object,
-      default: () => { },
-    },
-    // 图片
-    mapImg: {
-      type: Object,
-      default: () => { },
-    }, // 图片动画数组
+    // 图片动画数组
     mapImgAniArr: {
       type: Object | Array,
       default: () => { },
@@ -193,26 +262,7 @@ export default {
       immediate: true,
       deep: true,
     },
-    mapMarkerSelect: {
-      handler (newV) {
-        if (newV && newV.spotObject && newV.spotObject[0].spotArrone.length > 0) {
-          this.mapMarkerObjSelect = newV
-          this.addIconMarkerSelect(this.mapMarkerObjSelect)
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
-    // 面
-    mapPolygon: {
-      handler (newV) {
-        if (newV.polygonArr.length > 0) {
-          this.mapPolygonObj = newV
-          this.addPolygon(this.mapPolygonObj)
-        }
-      },
-      deep: false,
-    },
+
     // 线
     mapLine: {
       handler (newV) {
@@ -232,15 +282,6 @@ export default {
         }
       },
       deep: true,
-    },
-    mapImg: {
-      handler (newV) {
-        if (newV.imgArr && newV.imgArr.length > 0) {
-          this.mapImgObj = newV
-          this.addImage(this.mapImgObj)
-        }
-      },
-      deep: false,
     },
     mapImgAniArr: {
       handler (newV) {
@@ -286,8 +327,10 @@ export default {
             if (this.receiveId.indexOf(item) > -1) {
               this.BusFrom = obj.from
               try {
+                console.log(obj)
                 this.$refs.OLMap.__vue__[obj.methods](obj.data)
               } catch (error) {
+
                 Promise.reject(new Error(`该${this.$options.name}组件没有声明此方法`))
               }
             }
@@ -295,7 +338,6 @@ export default {
         }
       }
     })
-    // this.$bus.$on('addIconMarker', data => this.addIconMarker(data))
   },
   methods: {
     // 初始化地图
@@ -417,10 +459,11 @@ export default {
           from: this.$options.name,
           to: null,
           methods: 'loadedMap',
-          triggerIds: this.receiveId + '',
+          triggerIds: this.receiveId + '', // out时存放自己
           data: { page: JSON.parse(JSON.stringify(this.BusFrom)) }
         })
       }, 0)
+
     },
     // 清除地图
     clearMap (res) {
@@ -532,6 +575,196 @@ export default {
       })
       this.sourceMap = source
       return source
+    },
+    initGaoDeMap (params) {
+      if (this.map) {
+        this.map.setTarget(null)
+        this.map = null
+        this.target = ''
+        this.latlngObj = {}
+      }
+
+      this.latlngObj = params
+
+      if (this.latlngObj == null || this.latlngObj == undefined || this.latlngObj.latlngArr == undefined) {
+        return
+      }
+      this.fillExtend = null //清除视野控制
+      this.target = this.mapdivName //跟页面元素的 id 绑定来进行渲染
+      let tileLayer = []
+      this.layerArr = []
+
+      tileLayer.push(
+        new Tile({
+          visible: true,
+          opacity: 1,
+          name: 'gaode1',
+          source: new XYZ({
+            url: mapUrl['aMap-vec'],
+          }),
+        })
+      )
+
+      this.projection = new Projection({
+        code: 'EPSG:4326',
+        units: 'degrees',
+        axisOrientation: 'neu',
+      })
+
+      this.resolutions = [
+        0.703125, 0.3515625, 0.17578125, 0.087890625, 0.0439453125,
+        0.02197265625, 0.010986328125, 0.0054931640625, 0.00274658203125,
+        0.001373291015625, 6.866455078125e-4, 3.4332275390625e-4,
+        1.71661376953125e-4, 8.58306884765625e-5, 4.291534423828125e-5,
+        2.1457672119140625e-5, 1.0728836059570312e-5, 5.364418029785156e-6,
+        2.682209014892578e-6, 1.341104507446289e-6, 6.705522537231445e-7,
+        3.3527612686157227e-7,
+      ]
+      if (
+        this.latlngObj.xMin &&
+        this.latlngObj.xMax &&
+        this.latlngObj.yMin &&
+        this.latlngObj.yMax
+      ) {
+        this.fillExtend = [
+          this.latlngObj.xMin,
+          this.latlngObj.yMin,
+          this.latlngObj.xMax,
+          this.latlngObj.yMax,
+        ]
+      }
+      this.view = new View({
+        center: [Number(this.latlngObj.lng), Number(this.latlngObj.lat)], //地图中心坐标
+        zoom: this.latlngObj.openZoom, //缩放级别
+        maxZoom: this.latlngObj.maxZoom ? Number(this.latlngObj.maxZoom) : 21, // 地图最大缩放级别
+        minZoom: this.latlngObj.minZoom ? Number(this.latlngObj.minZoom) : 5, // 地图最小缩放级别
+        //projection: 'EPSG:4326'
+        resolutions: this.resolutions,
+        projection: this.projection,
+        // extent: [-180.0, -90.0, 180.0, 90.0],
+        extent:
+          this.fillExtend != null
+            ? this.fillExtend
+            : [-180.0, -90.0, 180.0, 90.0],
+      })
+      this.map = new Map({
+        target: this.target, //绑定dom元素进行渲染
+        layers: tileLayer, //配置地图数据源
+        view: this.view, //配置地图显示的options配置（坐标系，中心点，缩放级别等）
+      })
+      this.layerArr = tileLayer
+      // 删除默认的双击事件
+      // const dblClickInteraction = this.map
+      //   .getInteractions()
+      //   .getArray()
+      //   .find((interaction) => {
+      //     return interaction instanceof DoubleClickZoom;
+      //   });
+      //   if(dblClickInteraction)
+      // this.map.removeInteraction(dblClickInteraction);
+      //当图片视野，禁止地图拖放
+      if (this.latlngObj.bPic) {
+        this.disableMapDefaultEvents(this.map)
+      }
+
+      // if (this.fillExtend != null) {
+      //   this.map.getView().fit(this.fillExtend);
+      //   console.log(this.fillExtend);
+      // }
+      // 点线面的图层
+      // 添加一个绘制的线使用的layer
+      this.drawLayer = new OlLayerVector({
+        //layer所对应的source
+        source: new Vector({ wrapX: false }),
+      })
+      //把layer加入到地图中
+      // console.log(this.drawLayer);
+      this.map.addLayer(this.drawLayer)
+      this.map.getView().on('change:resolution', () => {
+        var zoom = this.map.getView().getZoom() //获取当前地图的缩放级别
+        // console.log("change:resolution:" + zoom);
+        var ext = this.map.getView().calculateExtent()
+
+        //this.map.getView().setResolution(resolution);
+        //做视野控制
+        // if (this.fillExtend != null) {
+        //   this.map.getView().fit(this.fillExtend)
+        // }
+
+        let that = this
+        that.getzoom = Math.floor(zoom)
+        that.curExtend = ext
+        if (
+          Object.keys(that.mapMarkerObj).length > 0 &&
+          that.mapMarkerObj.spotObject.length > 1
+        ) {
+          this.addIconMarker(that.mapMarkerObj)
+        }
+      })
+      this.map.on('moveend', () => {
+        var zoom = this.map.getView().getZoom() //获取当前地图的缩放级别
+        // console.log("change:resolution:" + zoom);
+        var ext = this.map.getView().calculateExtent()
+        //是鹰眼图需要做数据通信同步视野
+        if (this.bYinYanMap == false) {
+          this.$bus.$emit('YinYanMapChange', ext)
+        }
+      })
+      //   坐标点
+      this.map.on('click', (evt) => {
+        //   像素
+        this.$emit('clickMap', evt.coordinate)
+        this.drawMark.push(evt.coordinate)
+      })
+      var select = new Select()
+
+      select.on('select', (e) => {
+        let features = e.target.getFeatures().getArray()
+        let type = e.target.getFeatures().getArray()[0].getGeometry().getType()
+        this.$emit('deleDraw', features, type)
+      })
+      this.map.addInteraction(select)
+      //滤镜效果
+      // this.map.on(
+      //   'precompose',
+      //   function (evt) {
+      //     let ctx = evt.context
+      //     //ctx.filter = 'contrast(150%) saturate(200%)';
+      //   }.bind(this)
+      // )
+      // this.map.render()
+
+      this.map.on('moveend', () => {
+        console.log(
+          '当前页：' + this.target,
+          '缩放级别：' + this.map.getView().getZoom(),
+          '最大：' + this.map.getView().getMaxZoom(),
+          '最小：' + this.map.getView().getMinZoom(),
+          '计算范围：' + this.map.getView().calculateExtent()
+        )
+      })
+      //   坐标点
+      this.map.on('click', evt => {
+        console.log('当前鼠标点击的经纬度为：' + evt.coordinate)
+        console.log(
+          '缩放级别：' + this.map.getView().getZoom(),
+          '计算范围：' + this.map.getView().calculateExtent()
+        )
+      })
+
+      // // 地图加载成功
+      setTimeout(() => {
+        this.$bus.$emit('mapOut', {
+          from: this.$options.name,
+          to: null,
+          methods: 'loadedMap',
+          triggerIds: this.receiveId + '', // out时存放自己
+          data: { page: JSON.parse(JSON.stringify(this.BusFrom)) }
+        })
+      }, 0)
+
+
+
     },
     // 新加方法（王乐翔） - 通过距离（m）画圆
     drawCircularByDistance (lng, lat, distance, polygonName, styleObj = {}) {
@@ -700,11 +933,19 @@ export default {
         let type = e.target.getFeatures().getArray()[0].getGeometry().getType();
         let text = e.target.getFeatures().getArray()[0].get("text");
         if (text && text.clickOpen) {
-          this.clearShowdefaultSelect();
-          this.$emit("openHtml", {
-            text: text,
-            type: type
-          });
+          this.clearShowdefaultSelect()
+          const data = {
+            page: this.BusFrom,
+            ds: text,
+            type
+          }
+          this.$bus.$emit('mapOut', {
+            from: this.$options.name,
+            to: null,
+            methods: 'triggerMarker',
+            triggerIds: '',
+            data: this.$loadsh.cloneDeep(data)
+          })
         }
         this.$emit("deleDraw", features, type);
       });
@@ -783,17 +1024,18 @@ export default {
       }
     },
     // 设置缩放和视野
-    setZoomAndCenterByView (lon, lat, zoom, bFillExtent) {
+    setZoomAndCenterByView (e) {
+      // lon, lat, zoom, bFillExtent
       this.view = new View({
-        center: lon && lat ? [Number(lon), Number(lat)] : [Number(this.latlngObj.lng), Number(this.latlngObj.lat)], //地图中心坐标
-        zoom: zoom ? zoom : this.latlngObj.openZoom, //缩放级别
+        center: e.lon && e.lat ? [Number(e.lon), Number(e.lat)] : [Number(this.latlngObj.lng), Number(this.latlngObj.lat)], //地图中心坐标
+        zoom: e.zoom ? e.zoom : this.latlngObj.openZoom, //缩放级别
         maxZoom: this.latlngObj.maxZoom ? Number(this.latlngObj.maxZoom) : 21, // 地图最大缩放级别
         minZoom: this.latlngObj.minZoom ? Number(this.latlngObj.minZoom) : 5, // 地图最小缩放级别
         //projection: 'EPSG:4326'
         resolutions: this.resolutions,
         projection: this.projection,
         // extent: [-180.0, -90.0, 180.0, 90.0],
-        extent: bFillExtent && this.fillExtend != null ? this.fillExtend : [-180.0, -90.0, 180.0, 90.0],
+        extent: e.bFillExtent && this.fillExtend != null ? this.fillExtend : [-180.0, -90.0, 180.0, 90.0],
       })
       this.map.setView(this.view)
       this.zoomChangeEvent()
@@ -999,22 +1241,52 @@ export default {
         })
       }
     },
-    // 设置mark点击事件
+    // 设置mark点击事件（新增优化（王乐翔2022/12/13）：支持任意子元素的点击事件）
     setMarkClickEvent (divid, clickOpen, resB, markId) {
       if (clickOpen) {
         const div = document.querySelector('#' + divid)
         if (div) {
+          // 整体点击事件
           div.addEventListener('click', () => {
-            let marInd = document.querySelector('#' + divid).getAttribute('class')
+            let index = document.querySelector('#' + divid).getAttribute('class')
             this.clearAllSelect()
-            this.$emit('openHtml', {
-              lng: resB.lng,
-              lat: resB.lat,
-              text: resB,
-              index: marInd,
-              type: "Point"
+            const data = {
+              page: this.BusFrom,
+              ds: resB,
+              index,
+              type: 'fatherElement' // 父元素（到页面里进行判断）
+            }
+            this.$bus.$emit('mapOut', {
+              from: this.$options.name,
+              to: null,
+              methods: 'triggerMarker',
+              triggerIds: '',
+              data: this.$loadsh.cloneDeep(data)
             })
           })
+          // 如果div里子元素需要独立的点击事件
+          if (resB.otherClickIds.length > 0) {
+            resB.otherClickIds.forEach(item => {
+              const div = document.querySelector('#' + item) // 记得传进来的时候给子元素html绑定id哦
+              let index = div.getAttribute('class')
+              div.addEventListener('click', () => {
+                this.clearAllSelect()
+                const data = {
+                  page: this.BusFrom,
+                  ds: resB,
+                  index,
+                  type: 'childElementMarker' // 子元素（到页面里进行判断）
+                }
+                this.$bus.$emit('mapOut', {
+                  from: this.$options.name,
+                  to: null,
+                  methods: 'triggerMarker',
+                  triggerIds: '',
+                  data: this.$loadsh.cloneDeep(data)
+                })
+              })
+            })
+          }
         }
 
       }
@@ -1055,19 +1327,19 @@ export default {
         // 清空上一次保留的
 
         // // 使用变量存储弹窗所需的 DOM 对象
-        var popupId = document.getElementById(this.popupdivName)
+        let popupId = document.getElementById(this.popupdivName)
         resL.spotArrone.map((resB, k) => {
           //新增放置overly的div
           let html = []
           html.push(resB.htmlString)
-          var div = ''
+          let div = ''
           div = document.createElement('div')
           div.id = this.popupdivName + 'mianselect' + k
           div.className = k
           div.innerHTML = html.join('')
           popupId.appendChild(div)
           //新增overly\
-          var marker = new Overlay({
+          let marker = new Overlay({
             //overly的位置[11,22]格式
             position: [Number(resB.lng), Number(resB.lat)],
             //overly放置的div
@@ -1117,16 +1389,14 @@ export default {
         // 创建样式
         const style = new Style({
           stroke: new Stroke({
-            width: res.weight,
             color: res.color,
-            width: res.weight,
+            width: res.width,
             lineDash: res.lineStyle == 'solid' ? [] : [6],
           }),
           fill: new Fill({
             color: this.hexToRgba(res.fillColor, res.fillOpacity),
           }),
         })
-
         // 创建矢量图层
         const areaLayer = new OlLayerVector({
           source,
@@ -1187,7 +1457,7 @@ export default {
         }
       });
     },
-    // 线
+    // 线a
     addLine (resArea) {
       resArea.lineArr.map((res, i) => {
         // 创建要素
@@ -1664,7 +1934,7 @@ export default {
         })
       }
     },
-    // 作为地图地图图片
+    // 清除图片图层
     clearMapBackgroundImg (item) {
       if (this.ImgBackgroundImgArray && this.ImgBackgroundImgArray.length > 0) {
         this.ImgBackgroundImgArray.map((res, i) => {
@@ -1693,7 +1963,7 @@ export default {
             Number(res.latEnd),
           ],
         })
-        var imageLayer = new ImageLayer({
+        let imageLayer = new ImageLayer({
           source: imageSource,
           opacity: Number(res.opacity),
           visible: false,
@@ -1772,7 +2042,6 @@ export default {
       }
     },
     clearImgAniArr2 (item) {
-
       this[item.ImgAniArr].map((res, i) => {
         if (item.otherId == undefined) {
           if (res.source != undefined) this.map.removeLayer(res.source)
@@ -1791,25 +2060,25 @@ export default {
       }
     },
     // 追加一个指定图层
-    addOneAniLayer (oneLayer, bShow) {
-      let kt = this.constructSource(oneLayer)
+    addOneAniLayer (params) {
+      let kt = this.constructSource(params.oneLayer)
       let tileLayer = new Tile({
         source: kt,
-        opacity: oneLayer.opacity,
+        opacity: params.oneLayer.opacity,
         name: 'addOneAniLayer' + this.aniLayerArr.length,
-        visible: bShow != undefined ? bShow : false,
+        visible: params.bShow != undefined ? params.bShow : false,
       })
       this.map.addLayer(tileLayer)
       this.aniLayerArr.push(tileLayer)
     },
-    addAniLayerArr (arrLayer, bShow) {
-      arrLayer.map((itm, i) => {
+    addAniLayerArr (params) {
+      params.arr.map((itm, i) => {
         let kt = this.constructSource(itm)
         let tileLayer = new Tile({
           source: kt,
           opacity: itm.opacity,
           name: 'addAniLayerArr' + i,
-          visible: bShow != undefined ? bShow : false,
+          visible: params.bShow != undefined ? params.bShow : false,
         })
         this.map.addLayer(tileLayer)
         this.aniLayerArr.push(tileLayer)
@@ -1836,7 +2105,7 @@ export default {
       this.aniLayerArr = []
     },
     // 移除一个指定图层
-    removeOneAniLayer (index) {
+    removeOneAniLayer ({ index }) {
       if (this.aniLayerArr == undefined || this.aniLayerArr.length == 0) return
       this.map.removeLayer(this.aniLayerArr[index])
       this.aniLayerArr.splice(index, 1)
@@ -1887,8 +2156,8 @@ export default {
       }, 10)
     },
     /**
- * 添加风场图层
- */
+    * 添加风场图层
+    */
     addWindLayer (jsonData, speed) {
       // 数据源
       this.windLayer = new WindLayer(jsonData, {
@@ -1977,5 +2246,27 @@ div {
   font-size: 19px;
   font-family: YouSheBiaoTiHei;
   font-weight: 400;
+}
+.marker-text {
+  font-size: 14px;
+  white-space: nowrap;
+  word-break: keep-all;
+  font-weight: bold;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: black;
+  -webkit-text-stroke: 2px transparent;
+  border: none;
+}
+.station-text {
+  font-size: 10px;
+  white-space: nowrap;
+  word-break: keep-all;
+  font-weight: bold;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: black;
+  -webkit-text-stroke: 2px transparent;
+  border: none;
 }
 </style>
