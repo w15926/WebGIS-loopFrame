@@ -166,7 +166,7 @@ export default {
                 margin: null,
                 triggerIds: 'OLMap_6001',
                 width: '',
-                height: '',
+                height: '200',
                 x: 0,
                 y: 0
               },
@@ -411,7 +411,8 @@ export default {
         if (this.$config.commonConfig.systemBg.url) {
           const div = document.querySelector('.index')
           div.style.backgroundImage = `url(../${this.$config.commonConfig.systemBg.url})`
-          div.style.backgroundSize = '100% 100%'
+          // div.style.backgroundSize = '100% 100%'
+          div.style.backgroundSize = 'cover'
         }
       }
 
