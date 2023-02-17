@@ -5,8 +5,8 @@
     <!-- 左容器 -->
     <template v-if="page1Config && page1Config.leftComponents">
       <div class="leftContainer" :style="[
-      {'top': page1Config.leftContainerY ? page1Config.leftContainerY + 'px' : '160px'},
-      {'left':  page1Config.leftContainerX ? page1Config.leftContainerX + 'px' : '40px'},
+      {'top': page1Config.leftContainerY ? page1Config.leftContainerY + 'px' : ''},
+      {'left':  page1Config.leftContainerX ? page1Config.leftContainerX + 'px' : ''},
       {'width':  page1Config.leftContainerWidth ? page1Config.leftContainerWidth + 'px' : ''},
       {'height':  page1Config.leftContainerHeight ? page1Config.leftContainerHeight + 'px' : ''},
       {'overflow':  page1Config.leftContainerWidth || page1Config.leftContainerHeight ? 'hidden' : '' }
@@ -39,11 +39,11 @@
       </div>
     </template>
 
-    <!-- 右容器（x为right） -->
+    <!-- 右容器 -->
     <template v-if="page1Config && page1Config.rightComponents">
       <div class="rightContainer" :style="[
-      {'top': page1Config.rightContainerY ? page1Config.rightContainerY + 'px' : '160px'},
-      {'right':  page1Config.rightContainerX ? page1Config.rightContainerX + 'px' : '40px'},
+      {'top': page1Config.rightContainerY ? page1Config.rightContainerY + 'px' : ''},
+      {'left':  page1Config.rightContainerX ? page1Config.rightContainerX + 'px' : ''},
       {'width':  page1Config.rightContainerWidth ? page1Config.rightContainerWidth + 'px' : ''},
       {'height':  page1Config.rightContainerHeight ? page1Config.rightContainerHeight + 'px' : ''},
       {'overflow':  page1Config.rightContainerWidth || page1Config.rightContainerHeight ? 'hidden' : '' }
@@ -115,45 +115,8 @@ export default {
       setTimeout(() => {
         for (const item of this.page1Config.absoluteComponents) {
           if (item.fileName === 'OLMap') {
-            // 测试模拟数据
-            const obj = {
-              "name": "蓝莓标准",
-              "lng": 119.939420725213,
-              "lat": 35.95362092765159,
-              "openZoom": 11,
-              "latlngArr": [
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:huangdaolanmei",
-                  "opacity": 1
-                },
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:newbiaozhun",
-                  "opacity": 1
-                },
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:shandongshen",
-                  "opacity": 1
-                },
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:huangdaohangxian",
-                  "opacity": 1
-                },
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:daqiao",
-                  "opacity": 1
-                },
-                {
-                  "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
-                  "type": "huangdao1:huangdaozhoubian",
-                  "opacity": 1
-                }
-              ]
-            }
+            const mapName = JSON.parse(this.$Base64.decode(item.paramObject)).mapName
+            const obj = this.$config.mapAll[mapName]
             this.$bus.$emit('mapIn', {
               from: this.$options.name,
               to: 'OLMap',
@@ -164,7 +127,7 @@ export default {
             break
           }
         }
-      }, 0)
+      }, 1000)
 
     },
     // 地图加载完成

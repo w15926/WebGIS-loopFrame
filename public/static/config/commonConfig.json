@@ -5,8 +5,8 @@
     "url": "/static/bg@2x.png"
   },
   "systemCode": "",
-  "systemWidth": "1920px",
-  "systemHeight": "1080px",
+  "systemWidth": "",
+  "systemHeight": "",
   "systemLogin": true,
   "IFramePage": {
     "showPage": true,

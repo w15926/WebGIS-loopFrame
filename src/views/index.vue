@@ -151,6 +151,26 @@ export default {
             // 页面定位组件
             absoluteComponents: [
               {
+                id: 6001,
+                chName: '地图',
+                province: '江苏省',
+                city: '南京市',
+                countyOrDistrict: '栖霞区',
+                fileCodes: '',
+                fileName: 'OLMap',
+                order: 1,
+                paramObject: 'ewogICAgIm1hcE5hbWUiOiJob21lTWFwIgp9',
+                categoryCode: 'xxx类的code编码',
+                categoryName: 'xxx类',
+                time: '2022/11/06 15:35:09',
+                margin: null,
+                triggerIds: 'OLMap_6001',
+                width: '',
+                height: '',
+                x: 0,
+                y: 0
+              },
+              {
                 id: 666,
                 chName: 'Test1组件',
                 province: '江苏省',
@@ -210,26 +230,6 @@ export default {
                 x: 40,
                 y: 130
               },
-              {
-                id: 6001,
-                chName: '地图',
-                province: '江苏省',
-                city: '南京市',
-                countyOrDistrict: '栖霞区',
-                fileCodes: '',
-                fileName: 'OLMap',
-                order: 1,
-                paramObject: '',
-                categoryCode: 'xxx类的code编码',
-                categoryName: 'xxx类',
-                time: '2022/11/06 15:35:09',
-                margin: null,
-                triggerIds: 'OLMap_6001',
-                width: '',
-                height: '',
-                x: 0,
-                y: 0
-              },
             ],
             // 中间容器组件
             centerComponets: [],
@@ -271,8 +271,8 @@ export default {
             // 右容器宽高位置
             rightContainerWidth: '',
             rightContainerHeight: '',
-            rightContainerX: '',
-            rightContainerY: '',
+            rightContainerX: '1380',
+            rightContainerY: '160',
           },
           // 第二页
           {
@@ -298,6 +298,8 @@ export default {
               x: 100,
               y: 100
             },],
+            rightContainerX: '1380',
+            rightContainerY: '160',
           },
           // 第三页
           {
@@ -312,7 +314,7 @@ export default {
                 fileCodes: '',
                 fileName: 'OLMap',
                 order: 1,
-                paramObject: { line1: 'b页面-第一页' },
+                paramObject: 'ewogICAgIm1hcE5hbWUiOiJob21lTWFwIiwKICAgICJsaW5lMSI6Inh46aG16Z2iLeesrOS4iemhtSIKfQ==',
                 categoryCode: 'xxx类的code编码',
                 categoryName: 'xxx类',
                 time: '2022/11/06 15:35:09',
@@ -403,7 +405,8 @@ export default {
       // 系统背景
       if (this.$config.commonConfig.systemBg) {
         if (this.$config.commonConfig.systemBg.color) {
-          document.querySelector('.index').style.backgroundColor = this.$config.commonConfig.systemBg.color
+          // document.querySelector('.index').style.backgroundColor = this.$config.commonConfig.systemBg.color
+          document.body.style.backgroundColor = this.$config.commonConfig.systemBg.color
         }
         if (this.$config.commonConfig.systemBg.url) {
           const div = document.querySelector('.index')

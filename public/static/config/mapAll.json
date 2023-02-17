@@ -1,0 +1,40 @@
+{
+  "homeMap": {
+    "name": "首页地图",
+    "lng": 119.939420725213,
+    "lat": 35.95362092765159,
+    "openZoom": 11,
+    "latlngArr": [
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:huangdaolanmei",
+        "opacity": 1
+      },
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:newbiaozhun",
+        "opacity": 1
+      },
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:shandongshen",
+        "opacity": 1
+      },
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:huangdaohangxian",
+        "opacity": 1
+      },
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:daqiao",
+        "opacity": 1
+      },
+      {
+        "mapUrl": "http://58.59.29.51:11013/geoserver/gwc/service/wmts",
+        "type": "huangdao1:huangdaozhoubian",
+        "opacity": 1
+      }
+    ]
+  }
+}

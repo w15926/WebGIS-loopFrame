@@ -39,9 +39,7 @@ Vue.prototype.$bus = new Vue()
 Vue.prototype.$methods = methods
 Vue.prototype.$loadsh = require('lodash')
 Vue.prototype.$Base64 = Base64
-
-methods.registerComponents(require.context('./components/content', true))
-methods.registerComponents(require.context('./components/public', true))
+Vue.prototype.$md5 = require('md5')
 
 new Vue({
   router,
